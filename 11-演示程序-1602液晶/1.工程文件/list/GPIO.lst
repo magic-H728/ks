@@ -1,0 +1,134 @@
+C51 COMPILER V9.52.0.0   GPIO                                                              03/30/2022 11:31:23 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE GPIO
+OBJECT MODULE PLACED IN .\list\GPIO.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE GPIO\GPIO.c LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uar
+                    -t1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOURLED;.\88ELED;.\1
+                    -616ELED;.\LCD1602) PRINT(.\list\GPIO.lst) TABS(2) OBJECT(.\list\GPIO.obj)
+
+line level    source
+
+   1          #include  "GPIO.h"
+   2          /*************************************************************************************************
+   3          芯片上电后所有与PWM相关的IO口均为高阻态,需将这些口设置为准双向口或强推挽模式方可正常使用
+   4          相关IO: P0.6/P0.7/P1.6/P1.7/P2.1/P2.2/P2.3/P2.7/P3.7/P4.2/P4.4/P4.5
+   5          另外还有P1.0/P1.4两个口在上电时为强推挽输出,程序初始化时也需将这两个口设置为弱上拉准双向口模式
+   6          *************************************************************************************************/
+   7          
+   8          /*********************************************************************
+   9          函数原型：void Special_IO_Init(void)
+  10          函数功能：IAP15W4K58S4单片机特殊端口初始化（手册内容）
+  11          输入参数：无
+  12          输出参数：无
+  13          *********************************************************************/
+  14          void Special_IO_Init(void)
+  15          {
+  16   1        GPIO_InitTypeDef  GPIO_InitStructure;                   //结构定义
+  17   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;                  //推挽输出方式
+  18   1        GPIO_InitStructure.Pin  = GPIO_Pin_6 | GPIO_Pin_7;      //设置的引脚
+  19   1        GPIO_Inilize(GPIO_P0, &GPIO_InitStructure); 
+  20   1      
+  21   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;                  
+  22   1        GPIO_InitStructure.Pin  = GPIO_Pin_6 | GPIO_Pin_7| GPIO_Pin_0| GPIO_Pin_4;      
+  23   1        GPIO_Inilize(GPIO_P1, &GPIO_InitStructure); 
+  24   1      
+  25   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;                  
+  26   1        GPIO_InitStructure.Pin  = GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_7;     
+  27   1        GPIO_Inilize(GPIO_P2, &GPIO_InitStructure); 
+  28   1        
+  29   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;                  
+  30   1        GPIO_InitStructure.Pin  = GPIO_Pin_7;     
+  31   1        GPIO_Inilize(GPIO_P3, &GPIO_InitStructure); 
+  32   1        
+  33   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;                  
+  34   1        GPIO_InitStructure.Pin  = GPIO_Pin_2 | GPIO_Pin_4 | GPIO_Pin_5;     
+  35   1        GPIO_Inilize(GPIO_P4, &GPIO_InitStructure); 
+  36   1        
+  37   1      }
+  38          /*********************************************************************
+  39          函数原型：unsigned char GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)
+  40          函数功能：GPIO：要初始化的GPIO端口，GPIOx：引用的结构体
+  41          输入参数：无
+  42          输出参数：无
+  43          *********************************************************************/
+  44          unsigned char GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)
+  45          {
+  46   1        if(GPIO > GPIO_P7)            return 1; //空操作
+  47   1        if(GPIOx->Mode > GPIO_OUT_PP) return 2; //错误
+  48   1        if(GPIO == GPIO_P0)
+  49   1        {
+  50   2          if(GPIOx->Mode == GPIO_PullUp)    P0M1 &= ~GPIOx->Pin,  P0M0 &= ~GPIOx->Pin;   //上拉准双向口
+  51   2          if(GPIOx->Mode == GPIO_HighZ)     P0M1 |=  GPIOx->Pin,  P0M0 &= ~GPIOx->Pin;   //浮空输入
+  52   2          if(GPIOx->Mode == GPIO_OUT_OD)    P0M1 |=  GPIOx->Pin,  P0M0 |=  GPIOx->Pin;   //开漏输出
+  53   2          if(GPIOx->Mode == GPIO_OUT_PP)    P0M1 &= ~GPIOx->Pin,  P0M0 |=  GPIOx->Pin;   //推挽输出
+C51 COMPILER V9.52.0.0   GPIO                                                              03/30/2022 11:31:23 PAGE 2   
+
+  54   2        }
+  55   1        if(GPIO == GPIO_P1)
+  56   1        {
+  57   2          if(GPIOx->Mode == GPIO_PullUp)    P1M1 &= ~GPIOx->Pin,  P1M0 &= ~GPIOx->Pin;   //上拉准双向口
+  58   2          if(GPIOx->Mode == GPIO_HighZ)     P1M1 |=  GPIOx->Pin,  P1M0 &= ~GPIOx->Pin;   //浮空输入
+  59   2          if(GPIOx->Mode == GPIO_OUT_OD)    P1M1 |=  GPIOx->Pin,  P1M0 |=  GPIOx->Pin;   //开漏输出
+  60   2          if(GPIOx->Mode == GPIO_OUT_PP)    P1M1 &= ~GPIOx->Pin,  P1M0 |=  GPIOx->Pin;   //推挽输出
+  61   2        }
+  62   1        if(GPIO == GPIO_P2)
+  63   1        {
+  64   2          if(GPIOx->Mode == GPIO_PullUp)    P2M1 &= ~GPIOx->Pin,  P2M0 &= ~GPIOx->Pin;   //上拉准双向口
+  65   2          if(GPIOx->Mode == GPIO_HighZ)     P2M1 |=  GPIOx->Pin,  P2M0 &= ~GPIOx->Pin;   //浮空输入
+  66   2          if(GPIOx->Mode == GPIO_OUT_OD)    P2M1 |=  GPIOx->Pin,  P2M0 |=  GPIOx->Pin;   //开漏输出
+  67   2          if(GPIOx->Mode == GPIO_OUT_PP)    P2M1 &= ~GPIOx->Pin,  P2M0 |=  GPIOx->Pin;   //推挽输出
+  68   2        }
+  69   1        if(GPIO == GPIO_P3)
+  70   1        {
+  71   2          if(GPIOx->Mode == GPIO_PullUp)    P3M1 &= ~GPIOx->Pin,  P3M0 &= ~GPIOx->Pin;   //上拉准双向口
+  72   2          if(GPIOx->Mode == GPIO_HighZ)     P3M1 |=  GPIOx->Pin,  P3M0 &= ~GPIOx->Pin;   //浮空输入
+  73   2          if(GPIOx->Mode == GPIO_OUT_OD)    P3M1 |=  GPIOx->Pin,  P3M0 |=  GPIOx->Pin;   //开漏输出
+  74   2          if(GPIOx->Mode == GPIO_OUT_PP)    P3M1 &= ~GPIOx->Pin,  P3M0 |=  GPIOx->Pin;   //推挽输出
+  75   2        }
+  76   1        if(GPIO == GPIO_P4)
+  77   1        {
+  78   2          if(GPIOx->Mode == GPIO_PullUp)    P4M1 &= ~GPIOx->Pin,  P4M0 &= ~GPIOx->Pin;   //上拉准双向口
+  79   2          if(GPIOx->Mode == GPIO_HighZ)     P4M1 |=  GPIOx->Pin,  P4M0 &= ~GPIOx->Pin;   //浮空输入
+  80   2          if(GPIOx->Mode == GPIO_OUT_OD)    P4M1 |=  GPIOx->Pin,  P4M0 |=  GPIOx->Pin;   //开漏输出
+  81   2          if(GPIOx->Mode == GPIO_OUT_PP)    P4M1 &= ~GPIOx->Pin,  P4M0 |=  GPIOx->Pin;   //推挽输出
+  82   2        }
+  83   1        if(GPIO == GPIO_P5)
+  84   1        {
+  85   2          if(GPIOx->Mode == GPIO_PullUp)    P5M1 &= ~GPIOx->Pin,  P5M0 &= ~GPIOx->Pin;   //上拉准双向口
+  86   2          if(GPIOx->Mode == GPIO_HighZ)     P5M1 |=  GPIOx->Pin,  P5M0 &= ~GPIOx->Pin;   //浮空输入
+  87   2          if(GPIOx->Mode == GPIO_OUT_OD)    P5M1 |=  GPIOx->Pin,  P5M0 |=  GPIOx->Pin;   //开漏输出
+  88   2          if(GPIOx->Mode == GPIO_OUT_PP)    P5M1 &= ~GPIOx->Pin,  P5M0 |=  GPIOx->Pin;   //推挽输出
+  89   2        }
+  90   1        if(GPIO == GPIO_P6)
+  91   1        {
+  92   2          if(GPIOx->Mode == GPIO_PullUp)    P6M1 &= ~GPIOx->Pin,  P6M0 &= ~GPIOx->Pin;   //上拉准双向口
+  93   2          if(GPIOx->Mode == GPIO_HighZ)     P6M1 |=  GPIOx->Pin,  P6M0 &= ~GPIOx->Pin;   //浮空输入
+  94   2          if(GPIOx->Mode == GPIO_OUT_OD)    P6M1 |=  GPIOx->Pin,  P6M0 |=  GPIOx->Pin;   //开漏输出
+  95   2          if(GPIOx->Mode == GPIO_OUT_PP)    P6M1 &= ~GPIOx->Pin,  P6M0 |=  GPIOx->Pin;   //推挽输出
+  96   2        }
+  97   1          if(GPIO == GPIO_P7)
+  98   1        {
+  99   2          if(GPIOx->Mode == GPIO_PullUp)    P7M1 &= ~GPIOx->Pin,  P7M0 &= ~GPIOx->Pin;   //上拉准双向口
+ 100   2          if(GPIOx->Mode == GPIO_HighZ)     P7M1 |=  GPIOx->Pin,  P7M0 &= ~GPIOx->Pin;   //浮空输入
+ 101   2          if(GPIOx->Mode == GPIO_OUT_OD)    P7M1 |=  GPIOx->Pin,  P7M0 |=  GPIOx->Pin;   //开漏输出
+ 102   2          if(GPIOx->Mode == GPIO_OUT_PP)    P7M1 &= ~GPIOx->Pin,  P7M0 |=  GPIOx->Pin;   //推挽输出
+ 103   2        }
+ 104   1        return 0; //成功
+ 105   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    695    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.52.0.0   GPIO                                                              03/30/2022 11:31:23 PAGE 3   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

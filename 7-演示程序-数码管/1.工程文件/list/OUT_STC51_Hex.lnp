@@ -1,0 +1,14 @@
+".\list\main.obj",
+".\list\GPIO.obj",
+".\list\LED.obj",
+".\list\delay.obj",
+".\list\PULSE_IN_BIT_OUT.obj",
+".\list\KEY.obj",
+".\list\MKEY.obj",
+".\list\BMKEY.obj",
+".\list\YBUZZER.obj",
+".\list\WBUZZER.obj",
+".\list\ONELED.obj" 
+TO ".\list\OUT_STC51_Hex" 
+PRINT(".\list\OUT_STC51_Hex.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

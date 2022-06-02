@@ -1,0 +1,1 @@
+"Timer\timer.c" OMF2 BROWSE INCDIR(.\delay;.\GPIO;.\OLED;.\Timer;.\digital) DEBUG PRINT(.\list\timer.lst) OBJECT(.\list\timer.obj)

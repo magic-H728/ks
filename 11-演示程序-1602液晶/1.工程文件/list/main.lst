@@ -1,0 +1,73 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              03/30/2022 11:31:23 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\list\main.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE main.c LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\
+                    -STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOURLED;.\88ELED;.\1616EL
+                    -ED;.\LCD1602) PRINT(.\list\main.lst) TABS(2) OBJECT(.\list\main.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          #include "GPIO.h"
+   3          #include "LED.h"
+   4          #include "delay.h"
+   5          #include "PULSE_IN_BIT_OUT.h"
+   6          #include "KEY.h"
+   7          #include "MKEY.h"
+   8          #include "BMKEY.h"
+   9          #include "YBUZZER.h"
+  10          #include "WBUZZER.h"
+  11          #include "ONELED.h"
+  12          #include "FOURLED.h"
+  13          #include "LED88.h"
+  14          #include "LED1616.h"
+  15          #include "LCD1602.h"
+  16          #include "stdio.h"
+  17          
+  18          u8 i, buffer[16];
+  19          u16 count = 0;
+  20          void main(void)
+  21          {
+  22   1      
+  23   1        Special_IO_Init();    //特殊端口初始化函数
+  24   1        LCD1602_GPIO_config();
+  25   1        lcd1602_init();
+  26   1        lcd1602_clear();
+  27   1        
+  28   1        lcd1602_show_str(0x00,"-CGRAM:"); //显示-CGRAM
+  29   1        for(i=0;i<8;i++)
+  30   1        {
+  31   2          lcd1602_show_char(7+i,i);
+  32   2        }
+  33   1        lcd1602_show_str(0x0F,"-");
+  34   1        lcd1602_show_str(0x40,"-REMOTE-MCU");
+  35   1        lcd1602_show_str(0x4F,"-");
+  36   1        
+  37   1        while(1)              //循环
+  38   1        {
+  39   2          count++;
+  40   2          if(count>=10000)count=0;
+  41   2          sprintf((char*)buffer,"%04d",count);
+  42   2          lcd1602_show_str(0x4B,buffer);
+  43   2          delay_ms(1000);
+  44   2        }
+  45   1      }
+  46          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    175    ----
+   CONSTANT SIZE    =     27    ----
+   XDATA SIZE       =     19    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V9.52.0.0   MAIN                                                              03/30/2022 11:31:23 PAGE 2   
+
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

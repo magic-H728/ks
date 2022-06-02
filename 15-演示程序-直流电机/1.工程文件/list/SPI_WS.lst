@@ -1,0 +1,178 @@
+C51 COMPILER V9.60.0.0   SPI_WS                                                            06/02/2022 20:42:35 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SPI_WS
+OBJECT MODULE PLACED IN .\list\SPI_WS.obj
+COMPILER INVOKED BY: D:\STM32\C51\BIN\C51.EXE SPI\SPI_WS.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\
+                    -OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOU
+                    -RLED;.\88ELED;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI;.\STMP_MOTO;.\DCMOTO) DEBUG OBJECTEXTEND PRINT(.\list\SPI_W
+                    -S.lst) TABS(2) OBJECT(.\list\SPI_WS.obj)
+
+line level    source
+
+   1          #include "SPI_WS.h"
+   2          /*********************************************************************
+   3          文件名称：LED88.h
+   4          版    本：V1.0
+   5          说    明：88LED相关函数功能文件
+   6          修改记录：2021-11-11
+   7          *********************************************************************/
+   8          
+   9          /*********************************************************************
+  10          函数原型：void LED_GPIO_config(void)
+  11          函数功能：LED端口初始化函数
+  12          输入参数：无
+  13          输出参数：无
+  14          *********************************************************************/
+  15          void  SPI_GPIO_config(void)
+  16          {
+  17   1        GPIO_InitTypeDef  GPIO_InitStructure;     //结构定义
+  18   1        GPIO_InitStructure.Mode = GPIO_PullUp;    //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  19   1        
+  20   1          
+  21   1        GPIO_InitStructure.Pin  = GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;      //指定要初始化的IO, GPIO_Pin_7, 
+             -或操作
+  22   1        GPIO_Inilize(GPIO_P1, &GPIO_InitStructure); //初始化
+  23   1      }
+  24          
+  25          
+  26          
+  27          /*********************************************************************
+  28          函数原型：static void SPI_Delay(u16 t)
+  29          函数功能：SPI延时
+  30          输入参数：无
+  31          输出参数：无
+  32          *********************************************************************/
+  33          static void SPI_Delay(u16 t)
+  34          {
+  35   1          u8  i;
+  36   1          while (t--)
+  37   1        {
+  38   2          for(i=0;i<0x05;i++);
+  39   2        }
+  40   1      }
+  41          /*********************************************************************
+  42          函数原型：static u8 SPI_SendReadData(u8 dat)
+  43          函数功能：SPI读写数据
+  44          输入参数：无
+  45          输出参数：无
+  46          *********************************************************************/
+  47          static u8 SPI_SendReadData(u8 dat)
+  48          {
+  49   1        u8 i;
+  50   1        u8 ret = 0;
+C51 COMPILER V9.60.0.0   SPI_WS                                                            06/02/2022 20:42:35 PAGE 2   
+
+  51   1        SPI_SCK = 0;
+  52   1        for(i=0;i<8;i++)
+  53   1        {
+  54   2          SPI_MOSI = (dat&0x01)?1:0;
+  55   2          SPI_SCK = 1;
+  56   2          SPI_Delay(1);
+  57   2          SPI_SCK = 0;
+  58   2          dat>>=1;
+  59   2          SPI_Delay(1);
+  60   2          ret |= (SPI_MISO?1:0) << i;
+  61   2        }
+  62   1        SPI_Delay(1);
+  63   1        return ret;
+  64   1      }
+  65          //使能Flash写入
+  66          void SPIFlashEnablewrite()
+  67          {
+  68   1        SPI_CS = 0;
+  69   1        SPI_SendReadData(0x06);
+  70   1        SPI_CS = 1;
+  71   1      }
+  72          
+  73          //禁止Flash写入
+  74          void SPIFlashDisablewrite()
+  75          {
+  76   1        SPI_CS = 0;
+  77   1        SPI_SendReadData(0x04);
+  78   1        SPI_CS = 1;
+  79   1      }
+  80          
+  81          //等待Flash写入操作完成
+  82          void SPIFlashWaitForEnd(void)
+  83          {
+  84   1        SPI_CS = 0;
+  85   1          SPI_SendReadData(0x05);
+  86   1          while((SPI_SendReadData(0x00)&0x01)==1);
+  87   1        SPI_CS = 1;
+  88   1      }
+  89          
+  90          //擦除一个扇区  4096大小
+  91          //addr必须为4096的整数倍，否则按照4096取整
+  92          void SPIFlashEraseSector(u32 addr)
+  93          {
+  94   1        SPIFlashEnablewrite();
+  95   1        SPI_CS = 0;
+  96   1        SPI_SendReadData(0x20);
+  97   1        SPI_SendReadData(addr >> 16);
+  98   1        SPI_SendReadData(addr >> 8);
+  99   1        SPI_SendReadData(addr >> 0);
+ 100   1        SPI_CS = 1;
+ 101   1        SPI_Delay(100);
+ 102   1        SPIFlashWaitForEnd();
+ 103   1        SPIFlashDisablewrite();
+ 104   1      }
+ 105          
+ 106          //从Flash读取数据
+ 107          void SPIFlashReadData(u32 addr, u8 *buffer, u16 len)
+ 108          {
+ 109   1        SPI_CS = 0;
+ 110   1        SPI_SendReadData(0x03);
+ 111   1        SPI_SendReadData(addr >> 16);
+ 112   1        SPI_SendReadData(addr >> 8);
+C51 COMPILER V9.60.0.0   SPI_WS                                                            06/02/2022 20:42:35 PAGE 3   
+
+ 113   1        SPI_SendReadData(addr >> 0);
+ 114   1        while(len--)
+ 115   1        {
+ 116   2          *buffer++ = SPI_SendReadData(0x00);
+ 117   2        }
+ 118   1        SPI_CS = 1;
+ 119   1      }
+ 120          
+ 121          //向Flash写入数据
+ 122          //len最大256，一次最多可以连续写256个字节
+ 123          //注意写入数据前，需要写擦除对应的扇区，否则无法写入
+ 124          //地址最好是256的整数倍，否则可能导致len超过该256大小后从0开始
+ 125          void SPIFlashWriteData(u32 addr, u8 *buffer, u16 len)
+ 126          {
+ 127   1        SPIFlashEnablewrite();
+ 128   1        SPI_CS = 0;
+ 129   1        SPI_SendReadData(0x02);
+ 130   1        SPI_SendReadData(addr >> 16);
+ 131   1        SPI_SendReadData(addr >> 8);
+ 132   1        SPI_SendReadData(addr >> 0);
+ 133   1        if(len>256)
+ 134   1        {
+ 135   2          len = 256;
+ 136   2        }
+ 137   1        while(len--)
+ 138   1        {
+ 139   2          SPI_SendReadData(*buffer++);
+ 140   2          SPI_Delay(5);
+ 141   2        }
+ 142   1        SPI_CS = 1;
+ 143   1        SPI_Delay(100);
+ 144   1        SPIFlashDisablewrite();
+ 145   1      }
+ 146          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    512    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      24
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,72 @@
+C51 COMPILER V9.60.0.0   LED88                                                             06/02/2022 20:42:35 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LED88
+OBJECT MODULE PLACED IN .\list\LED88.obj
+COMPILER INVOKED BY: D:\STM32\C51\BIN\C51.EXE 88ELED\LED88.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.\LED;
+                    -.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\F
+                    -OURLED;.\88ELED;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI;.\STMP_MOTO;.\DCMOTO) DEBUG OBJECTEXTEND PRINT(.\list\LED
+                    -88.lst) TABS(2) OBJECT(.\list\LED88.obj)
+
+line level    source
+
+   1          #include "LED88.h"
+   2          /*********************************************************************
+   3          文件名称：LED88.h
+   4          版    本：V1.0
+   5          说    明：88LED相关函数功能文件
+   6          修改记录：2021-11-11
+   7          *********************************************************************/
+   8          
+   9          /*********************************************************************
+  10          函数原型：void LED_GPIO_config(void)
+  11          函数功能：LED端口初始化函数
+  12          输入参数：无
+  13          输出参数：无
+  14          *********************************************************************/
+  15          void  _88LED_GPIO_config(void)
+  16          {
+  17   1        GPIO_InitTypeDef  GPIO_InitStructure;     //结构定义
+  18   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;    //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  19   1        
+  20   1        GPIO_InitStructure.Pin  = GPIO_Pin_All;     //指定要初始化的IO, GPIO_Pin_7, 或操作
+  21   1        GPIO_Inilize(GPIO_P7, &GPIO_InitStructure); //初始化
+  22   1        
+  23   1          
+  24   1        GPIO_InitStructure.Pin  = GPIO_Pin_All;     //指定要初始化的IO, GPIO_Pin_7, 或操作
+  25   1        GPIO_Inilize(GPIO_P6, &GPIO_InitStructure); //初始化
+  26   1      }
+  27          
+  28          
+  29          u8 PointX[8]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};
+  30          
+  31          u8 PointY[8]={0x80,0X40,0X20,0X10,0X08,0X04,0X02,0X01};
+  32          /*********************************************************************
+  33          函数原型：void SET_Point(u8 x,u8 y)
+  34          函数功能：XY坐标打点
+  35          输入参数：无
+  36          输出参数：无
+  37          *********************************************************************/
+  38          void SET_Point(u8 x,u8 y)
+  39          {
+  40   1        
+  41   1        P6=PointX[x];
+  42   1        P7=PointY[y];
+  43   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     65    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     16       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+C51 COMPILER V9.60.0.0   LED88                                                             06/02/2022 20:42:35 PAGE 2   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

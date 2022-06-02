@@ -1,0 +1,139 @@
+C51 COMPILER V9.52.0.0   STMP_MOTO                                                         04/24/2022 11:14:58 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE STMP_MOTO
+OBJECT MODULE PLACED IN .\list\STMP_MOTO.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE STMP_MOTO\STMP_MOTO.c LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\
+                    -Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOURLED;.\
+                    -88ELED;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI;.\STMP_MOTO;.\DCMOTO;.\REMOTO) PRINT(.\list\STMP_MOTO.lst) TABS(2)
+                    - OBJECT(.\list\STMP_MOTO.obj)
+
+line level    source
+
+   1          #include "STMP_MOTO.h"
+   2          #include "delay.h"
+   3          /*********************************************************************
+   4          文件名称：LED88.h
+   5          版    本：V1.0
+   6          说    明：88LED相关函数功能文件
+   7          修改记录：2021-11-11
+   8          *********************************************************************/
+   9          
+  10          /*********************************************************************
+  11          函数原型：void LED_GPIO_config(void)
+  12          函数功能：LED端口初始化函数
+  13          输入参数：无
+  14          输出参数：无
+  15          *********************************************************************/
+  16          void  STMP_MOTO_GPIO_config(void)
+  17          {
+  18   1        GPIO_InitTypeDef  GPIO_InitStructure;     //结构定义
+  19   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;    //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  20   1        
+  21   1      
+  22   1        GPIO_InitStructure.Pin  = GPIO_Pin_1 |GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4 ;      //指定要初始化的IO, GPIO_Pin_7
+             -, 或操作
+  23   1        GPIO_Inilize(GPIO_P6, &GPIO_InitStructure); //初始化
+  24   1      }
+  25          
+  26          void _delay_moto(u8 t)
+  27          {
+  28   1        u8 i,j;
+  29   1        for(i=0;i<t;i++)
+  30   1        for(j=0;j<10;j++);
+  31   1      
+  32   1      
+  33   1      }
+  34          
+  35          void STEP_MOTO_RUN(u16 speed)
+  36          {
+  37   1      
+  38   1       INA  = 1;
+  39   1       INB  = 0;
+  40   1       INC  = 0;
+  41   1       IND  = 0;
+  42   1        _delay_moto(speed);
+  43   1       INA  = 1;
+  44   1       INB  = 1;
+  45   1       INC  = 0;
+  46   1       IND  = 0;
+  47   1        _delay_moto(speed);
+  48   1       INA  = 0;
+  49   1       INB  = 1;
+  50   1       INC  = 0;
+C51 COMPILER V9.52.0.0   STMP_MOTO                                                         04/24/2022 11:14:58 PAGE 2   
+
+  51   1       IND  = 0;
+  52   1        _delay_moto(speed);
+  53   1       INA  = 0;
+  54   1       INB  = 1;
+  55   1       INC  = 1;
+  56   1       IND  = 0;
+  57   1        _delay_moto(speed);
+  58   1       INA  = 0;
+  59   1       INB  = 0;
+  60   1       INC  = 1;
+  61   1       IND  = 0;
+  62   1        _delay_moto(speed); 
+  63   1        INA  = 0;
+  64   1       INB  = 0;
+  65   1       INC  = 1;
+  66   1       IND  = 1;
+  67   1        _delay_moto(speed);
+  68   1       INA  = 0;
+  69   1       INB  = 0;
+  70   1       INC  = 0;
+  71   1       IND  = 1;
+  72   1        _delay_moto(speed); 
+  73   1       INA  = 1;
+  74   1       INB  = 0;
+  75   1       INC  = 0;
+  76   1       IND  = 1;
+  77   1        _delay_moto(speed);   
+  78   1        
+  79   1        
+  80   1        
+  81   1        
+  82   1        
+  83   1        
+  84   1        
+  85   1        
+  86   1        
+  87   1        
+  88   1        
+  89   1        
+  90   1      }
+  91          
+  92          
+  93          
+  94          
+  95          
+  96          
+  97          
+  98          
+  99          
+ 100          
+ 101          
+ 102          
+ 103          
+ 104          
+ 105          
+ 106          
+ 107          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    121    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.52.0.0   STMP_MOTO                                                         04/24/2022 11:14:58 PAGE 3   
+
+   XDATA SIZE       =   ----       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

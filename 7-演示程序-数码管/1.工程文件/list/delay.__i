@@ -1,0 +1,1 @@
+"delay\delay.c" LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED) PRINT(.\list\delay.lst) TABS (2) OBJECT(.\list\delay.obj)

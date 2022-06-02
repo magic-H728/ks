@@ -1,0 +1,27 @@
+SET C51INC=C:\Keil_v4\C51\Inc;C:\Keil_v4\C51\Inc\STC
+SET C51LIB=C:\Keil_v4\C51\Lib
+SET CPU_TYPE=STC15W4K32S4
+SET CPU_VENDOR=STC
+SET UV2_TARGET=Target 1
+SET CPU_XTAL=0x02160EC0
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\main.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\GPIO.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\LED.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\delay.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\KEY.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\BMKEY.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\YBUZZER.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\WBUZZER.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\ONELED.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\FOURLED.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\LED88.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\LED1616.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\LCD1602.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\LCD12864.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\SPI_WS.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\LCDTFT.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\STMP_M~1.__I
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\DCMOTO.__i
+"C:\Keil_v4\C51\BIN\C51.EXE" @.\list\REMOTO.__i
+"C:\Keil_v4\C51\BIN\BL51.EXE" @.\list\OUT_ST~1.LNP
+"C:\Keil_v4\C51\BIN\OH51.EXE" ".\list\OUT_STC51_Hex" 

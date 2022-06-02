@@ -1,0 +1,39 @@
+C51 COMPILER V9.52.0.0   WBUZZER                                                           03/30/2022 11:31:24 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE WBUZZER
+OBJECT MODULE PLACED IN .\list\WBUZZER.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE WBUZZER\WBUZZER.c LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro
+                    -;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOURLED;.\88EL
+                    -ED;.\1616ELED;.\LCD1602) PRINT(.\list\WBUZZER.lst) TABS(2) OBJECT(.\list\WBUZZER.obj)
+
+line level    source
+
+   1          #include "WBUZZER.h"
+   2          
+   3          
+   4          
+   5          
+   6          void  WBUZZER_GPIO_config(void)
+   7          {
+   8   1        GPIO_InitTypeDef  GPIO_InitStructure;     //结构定义
+   9   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;    //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  10   1        
+  11   1        GPIO_InitStructure.Pin  = GPIO_Pin_7;     //指定要初始化的IO, GPIO_Pin_7, 或操作
+  12   1        GPIO_Inilize(GPIO_P2, &GPIO_InitStructure); //初始化
+  13   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     21    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

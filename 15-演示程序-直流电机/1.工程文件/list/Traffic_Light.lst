@@ -1,0 +1,41 @@
+C51 COMPILER V9.60.0.0   TRAFFIC_LIGHT                                                     05/21/2021 09:47:51 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TRAFFIC_LIGHT
+OBJECT MODULE PLACED IN .\list\Traffic_Light.obj
+COMPILER INVOKED BY: D:\20.keil C51\C51\BIN\C51.EXE ..\2.PM6步进电机\traffic_light\Traffic_Light.c LARGE OPTIMIZE(8,SPEE
+                    -D) BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT) PRINT(.\list\Traffic_Light.lst
+                    -) TABS(2) OBJECT(.\list\Traffic_Light.obj)
+
+line level    source
+
+   1          #include "Traffic_Light.h"
+*** ERROR C301 IN LINE 9 OF ..\2.PM6步进电机\traffic_light\Traffic_Light.h: identifier expected
+   2          
+   3          
+   4          /*********************************************************************
+   5          函数原型：void  STEPMOTOR_GPIO_config(void)
+   6          函数功能：步进电机端口初始化函数
+   7          输入参数：无
+   8          输出参数：无
+   9          版本：v1.0
+  10          *********************************************************************/
+  11          void  STEPMOTOR_GPIO_config(void)
+  12          {
+  13   1        GPIO_InitTypeDef  GPIO_InitStructure;   
+  14   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;
+  15   1        GPIO_InitStructure.Pin  = GPIO_Pin_7 |  //StepMotor_PhaseA
+  16   1                                  GPIO_Pin_6;   //StepMotor_PhaseB
+  17   1        GPIO_Inilize(GPIO_P7, &GPIO_InitStructure); 
+  18   1        
+  19   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;
+  20   1        GPIO_InitStructure.Pin  = GPIO_Pin_2 |  //StepMotor_PhaseC
+  21   1                                  GPIO_Pin_3;   //StepMotor_PhaseD
+  22   1        GPIO_Inilize(GPIO_P0, &GPIO_InitStructure);   
+  23   1      }
+  24          
+  25          
+  26          
+  27          
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

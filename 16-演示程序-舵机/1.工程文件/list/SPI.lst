@@ -1,0 +1,172 @@
+C51 COMPILER V9.60.0.0   SPI                                                               12/27/2021 21:23:20 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SPI
+OBJECT MODULE PLACED IN .\list\SPI.obj
+COMPILER INVOKED BY: D:\18KEILCA51\C51\BIN\C51.EXE SPI\SPI.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.\LED;
+                    -.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\F
+                    -OURLED;.\88ELED;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI) PRINT(.\list\SPI.lst) TABS(2) OBJECT(.\list\SPI.obj)
+
+line level    source
+
+   1          #include "SPI_WS.h"
+*** WARNING C318 IN LINE 1 OF SPI\SPI.c: can't open file 'SPI_WS.h'
+   2          /*********************************************************************
+   3          文件名称：LED88.h
+   4          版    本：V1.0
+   5          说    明：88LED相关函数功能文件
+   6          修改记录：2021-11-11
+   7          *********************************************************************/
+   8          
+   9          /*********************************************************************
+  10          函数原型：void LED_GPIO_config(void)
+  11          函数功能：LED端口初始化函数
+  12          输入参数：无
+  13          输出参数：无
+  14          *********************************************************************/
+  15          void  SPI_GPIO_config(void)
+  16          {
+  17   1        GPIO_InitTypeDef  GPIO_InitStructure;     //结构定义
+*** ERROR C202 IN LINE 17 OF SPI\SPI.c: 'GPIO_InitTypeDef': undefined identifier
+*** ERROR C141 IN LINE 17 OF SPI\SPI.c: syntax error near 'GPIO_InitStructure', expected ';'
+  18   1        GPIO_InitStructure.Mode = GPIO_PullUp;    //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  19   1        
+  20   1          
+  21   1        GPIO_InitStructure.Pin  = GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;      //指定要初始化的IO, GPIO_Pin_7, 
+             -或操作
+  22   1        GPIO_Inilize(GPIO_P1, &GPIO_InitStructure); //初始化
+*** ERROR C202 IN LINE 22 OF SPI\SPI.c: 'GPIO_P1': undefined identifier
+  23   1      }
+  24          
+  25          
+  26          u8 PointX[8]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};
+*** ERROR C129 IN LINE 26 OF SPI\SPI.c: missing ';' before 'PointX'
+  27          
+  28          u8 PointY[8]={0x80,0X40,0X20,0X10,0X08,0X04,0X02,0X01};
+  29          /*********************************************************************
+  30          函数原型：static void SPI_Delay(u16 t)
+  31          函数功能：SPI延时
+  32          输入参数：无
+  33          输出参数：无
+  34          *********************************************************************/
+  35          static void SPI_Delay(u16 t)
+  36          {
+  37              u8  i;
+  38              while (t--)
+  39            {
+  40              for(i=0;i<0x05;i++);
+  41            }
+  42          }
+  43          /*********************************************************************
+  44          函数原型：static u8 SPI_SendReadData(u8 dat)
+  45          函数功能：SPI读写数据
+  46          输入参数：无
+C51 COMPILER V9.60.0.0   SPI                                                               12/27/2021 21:23:20 PAGE 2   
+
+  47          输出参数：无
+  48          *********************************************************************/
+  49          static u8 SPI_SendReadData(u8 dat)
+  50          {
+  51            u8 i;
+  52            u8 ret = 0;
+  53            SPI_SCK = 0;
+  54            for(i=0;i<8;i++)
+  55            {
+  56              SPI_MOSI = (dat&0x01)?1:0;
+  57              SPI_SCK = 1;
+  58              SPI_Delay(1);
+  59              SPI_SCK = 0;
+  60              dat>>=1;
+  61              SPI_Delay(1);
+  62              ret |= (SPI_MISO?1:0) << i;
+  63            }
+  64            SPI_Delay(1);
+  65            return ret;
+  66          }
+  67          //使能Flash写入
+  68          void SPIFlashEnablewrite()
+  69          {
+  70            SPI_CS = 0;
+  71            SPI_SendReadData(0x06);
+  72            SPI_CS = 1;
+  73          }
+  74          
+  75          //禁止Flash写入
+  76          void SPIFlashDisablewrite()
+  77          {
+  78            SPI_CS = 0;
+  79            SPI_SendReadData(0x04);
+  80            SPI_CS = 1;
+  81          }
+  82          
+  83          //等待Flash写入操作完成
+  84          void SPIFlashWaitForEnd(void)
+  85          {
+  86            SPI_CS = 0;
+  87              SPI_SendReadData(0x05);
+  88              while((SPI_SendReadData(0x00)&0x01)==1);
+  89            SPI_CS = 1;
+  90          }
+  91          
+  92          //擦除一个扇区  4096大小
+  93          //addr必须为4096的整数倍，否则按照4096取整
+  94          void SPIFlashEraseSector(u32 addr)
+  95          {
+  96            SPIFlashEnablewrite();
+  97            SPI_CS = 0;
+  98            SPI_SendReadData(0x20);
+  99            SPI_SendReadData(addr >> 16);
+ 100            SPI_SendReadData(addr >> 8);
+ 101            SPI_SendReadData(addr >> 0);
+ 102            SPI_CS = 1;
+ 103            SPI_Delay(100);
+ 104            SPIFlashWaitForEnd();
+ 105            SPIFlashDisablewrite();
+ 106          }
+ 107          
+ 108          //从Flash读取数据
+C51 COMPILER V9.60.0.0   SPI                                                               12/27/2021 21:23:20 PAGE 3   
+
+ 109          void SPIFlashReadData(u32 addr, u8 *buffer, u16 len)
+ 110          {
+ 111            SPI_CS = 0;
+ 112            SPI_SendReadData(0x03);
+ 113            SPI_SendReadData(addr >> 16);
+ 114            SPI_SendReadData(addr >> 8);
+ 115            SPI_SendReadData(addr >> 0);
+ 116            while(len--)
+ 117            {
+ 118              *buffer++ = SPI_SendReadData(0x00);
+ 119            }
+ 120            SPI_CS = 1;
+ 121          }
+ 122          
+ 123          //向Flash写入数据
+ 124          //len最大256，一次最多可以连续写256个字节
+ 125          //注意写入数据前，需要写擦除对应的扇区，否则无法写入
+ 126          //地址最好是256的整数倍，否则可能导致len超过该256大小后从0开始
+ 127          void SPIFlashWriteData(u32 addr, u8 *buffer, u16 len)
+ 128          {
+ 129            SPIFlashEnablewrite();
+ 130            SPI_CS = 0;
+ 131            SPI_SendReadData(0x02);
+ 132            SPI_SendReadData(addr >> 16);
+ 133            SPI_SendReadData(addr >> 8);
+ 134            SPI_SendReadData(addr >> 0);
+ 135            if(len>256)
+ 136            {
+ 137              len = 256;
+ 138            }
+ 139            while(len--)
+ 140            {
+ 141              SPI_SendReadData(*buffer++);
+ 142              SPI_Delay(5);
+ 143            }
+ 144            SPI_CS = 1;
+ 145            SPI_Delay(100);
+ 146            SPIFlashDisablewrite();
+ 147          }
+ 148          
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  4 ERROR(S)

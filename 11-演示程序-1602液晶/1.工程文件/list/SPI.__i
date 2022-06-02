@@ -1,0 +1,1 @@
+"FLASH\SPI.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\FLASH;.\AT24Cxx) PRINT(.\list\SPI.lst) TABS (2) OBJECT(.\list\SPI.obj)

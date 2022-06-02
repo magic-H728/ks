@@ -1,0 +1,53 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              04/08/2022 11:25:54 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\list\main.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE main.c LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\
+                    -STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED) PRINT(.\list\main.lst) TAB
+                    -S(2) OBJECT(.\list\main.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          #include "GPIO.h"
+   3          #include "LED.h"
+   4          #include "delay.h"
+   5          #include "PULSE_IN_BIT_OUT.h"
+   6          #include "KEY.h"
+   7          #include "MKEY.h"
+   8          #include "BMKEY.h"
+   9          #include "YBUZZER.h"
+  10          #include "WBUZZER.h"
+  11          #include "ONELED.h"
+  12          
+  13          u8 count=16,i;
+  14          void main(void)
+  15          {
+  16   1        Special_IO_Init();    //特殊端口初始化函数
+  17   1      
+  18   1        ONELED_GPIO_config();
+  19   1        while(1)              //循环
+  20   1        {
+  21   2          for(i=0;i<16;i++)
+  22   2          {
+  23   3            P7=one_mum[i];
+  24   3            delay_ms(500);
+  25   3          }
+  26   2        }
+  27   1      }
+  28          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     43    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      2    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

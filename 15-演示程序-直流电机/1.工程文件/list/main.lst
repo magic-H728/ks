@@ -1,0 +1,60 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              06/02/2022 20:42:34 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\list\main.obj
+COMPILER INVOKED BY: D:\STM32\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.
+                    -\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOURLED;.
+                    -\88ELED;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI;.\STMP_MOTO;.\DCMOTO) DEBUG OBJECTEXTEND PRINT(.\list\main.lst) T
+                    -ABS(2) OBJECT(.\list\main.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          #include "GPIO.h"
+   3          #include "LED.h"
+   4          #include "delay.h"
+   5          #include "PULSE_IN_BIT_OUT.h"
+   6          #include "KEY.h"
+   7          #include "MKEY.h"
+   8          #include "BMKEY.h"
+   9          #include "YBUZZER.h"
+  10          #include "WBUZZER.h"
+  11          #include "ONELED.h"
+  12          #include "FOURLED.h"
+  13          #include "LED88.h"
+  14          #include "LED1616.h"
+  15          #include "LCD1602.h"
+  16          #include "stdio.h"
+  17          #include "LCD12864.h"
+  18          #include "SPI_WS.h"
+  19          #include "LCDTFT.h"
+  20          #include "STMP_MOTO.h"
+  21          #include "DCMOTO.h"
+  22          void main(void)
+  23          {
+  24   1      
+  25   1          Special_IO_Init(); //特殊端口初始化函数
+  26   1      
+  27   1          DCMOTO_GPIO_config();
+  28   1          Time0_16_Config_Init();
+  29   1          EA = 1;
+  30   1          while (1) //循环
+  31   1          {
+  32   2              DCMoto_Sta(1, 1);
+  33   2          }
+  34   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     20    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

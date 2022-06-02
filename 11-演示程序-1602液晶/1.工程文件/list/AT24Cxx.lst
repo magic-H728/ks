@@ -1,0 +1,231 @@
+C51 COMPILER V9.60.0.0   AT24CXX                                                           05/20/2021 19:39:21 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE AT24CXX
+OBJECT MODULE PLACED IN .\list\AT24Cxx.obj
+COMPILER INVOKED BY: D:\20.keil C51\C51\BIN\C51.EXE AT24Cxx\AT24Cxx.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\delay;.\GP
+                    -IO;.\LED;.\OLED;.\Gyro;.\Uart1;.\FLASH;.\AT24Cxx) PRINT(.\list\AT24Cxx.lst) TABS(2) OBJECT(.\list\AT24Cxx.obj)
+
+line level    source
+
+   1          #include "AT24Cxx.h"
+   2          
+   3          /*********************************************************************
+   4          函数原型：void  AT24Cxx_GPIO_config(void)
+   5          函数功能：EEPROM端口配置函数
+   6          输入参数：无
+   7          输出参数：无
+   8          版本：v1.0
+   9          *********************************************************************/
+  10          void  AT24Cxx_GPIO_config(void)
+  11          {
+  12   1        GPIO_InitTypeDef  GPIO_InitStructure;   //结构定义
+  13   1        
+  14   1        GPIO_InitStructure.Mode = GPIO_OUT_OD;  
+  15   1        GPIO_InitStructure.Pin  = GPIO_Pin_3 | GPIO_Pin_5;  
+  16   1        GPIO_Inilize(GPIO_P7, &GPIO_InitStructure); 
+  17   1        
+  18   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;
+  19   1        GPIO_InitStructure.Pin  = GPIO_Pin_4 ;  
+  20   1        GPIO_Inilize(GPIO_P7, &GPIO_InitStructure); 
+  21   1      }
+  22          
+  23          /*********************************************************************
+  24          函数原型：void Delay5us(void)
+  25          函数功能：IIC时序短暂延时
+  26          输入参数：无
+  27          输出参数：无
+  28          版本：v1.0
+  29          *********************************************************************/
+  30          void Delay5us(void)
+  31          {
+  32   1        unsigned char n = 25;
+  33   1        while (n--)
+  34   1        {
+  35   2          _nop_();
+  36   2          _nop_();
+  37   2        }
+  38   1      }
+  39          /*********************************************************************
+  40          函数原型：void AT24C64_Start(void)
+  41          函数功能：IIC起始信号
+  42          输入参数：无
+  43          输出参数：无
+  44          版本：v1.0
+  45          *********************************************************************/
+  46          void AT24C64_Start(void)
+  47          {
+  48   1        SDA = 1;                    //拉高数据线
+  49   1        SCL = 1;                    //拉高时钟线
+  50   1        Delay5us();                 //延时
+  51   1        SDA = 0;                    //产生下降沿
+  52   1        Delay5us();                 //延时
+  53   1        SCL = 0;                    //拉低时钟线
+  54   1      } 
+C51 COMPILER V9.60.0.0   AT24CXX                                                           05/20/2021 19:39:21 PAGE 2   
+
+  55          /*********************************************************************
+  56          函数原型：void AT24C64_Start(void)
+  57          函数功能：IIC停止信号
+  58          输入参数：无
+  59          输出参数：无
+  60          版本：v1.0
+  61          *********************************************************************/
+  62          void AT24C64_Stop(void)
+  63          {
+  64   1        SDA = 0;                    //拉低数据线
+  65   1        SCL = 1;                    //拉高时钟线
+  66   1        Delay5us();                 //延时
+  67   1        SDA = 1;                    //产生上升沿
+  68   1        Delay5us();                 //延时
+  69   1      }
+  70          /*********************************************************************
+  71          函数原型：void AT24C64_SendACK(bit ack)
+  72          函数功能：主机发送应答
+  73          输入参数：ack 
+  74          输出参数：无
+  75          版本：v1.0
+  76          *********************************************************************/
+  77          void AT24C64_SendACK(bit ack)
+  78          {
+  79   1        SDA = ack;                  //写应答信号
+  80   1        SCL = 1;                    //拉高时钟线
+  81   1        Delay5us();                 //延时
+  82   1        SCL = 0;                    //拉低时钟线
+  83   1        Delay5us();                 //延时
+  84   1      }
+  85          /*********************************************************************
+  86          函数原型：bit AT24C64_RecvACK(void)
+  87          函数功能：主机发送应答
+  88          输入参数：无
+  89          输出参数：CY
+  90          版本：v1.0
+  91          *********************************************************************/
+  92          bit AT24C64_RecvACK(void)
+  93          {
+  94   1        SCL = 1;                    //拉高时钟线
+  95   1        Delay5us();                 //延时
+  96   1        CY = SDA;                   //读应答信号
+  97   1        SCL = 0;                    //拉低时钟线
+  98   1        Delay5us();                 //延时
+  99   1      
+ 100   1        return CY;
+ 101   1      }
+ 102          /*********************************************************************
+ 103          函数原型：void AT24C64_SendByte(unsigned char dat)
+ 104          函数功能：向IIC总线发送一个字节数据
+ 105          输入参数：dat ：要发送的数据
+ 106          输出参数：无
+ 107          版本：v1.0
+ 108          *********************************************************************/
+ 109          void AT24C64_SendByte(unsigned char dat)
+ 110          {
+ 111   1        unsigned char i;
+ 112   1        for (i=0; i<8; i++)         //8位计数器
+ 113   1        {
+ 114   2          dat <<= 1;              //移出数据的最高位
+ 115   2          SDA = CY;               //送数据口
+ 116   2          SCL = 1;                //拉高时钟线
+C51 COMPILER V9.60.0.0   AT24CXX                                                           05/20/2021 19:39:21 PAGE 3   
+
+ 117   2          Delay5us();             //延时
+ 118   2          SCL = 0;                //拉低时钟线
+ 119   2          Delay5us();             //延时
+ 120   2        }
+ 121   1        AT24C64_RecvACK();
+ 122   1      }
+ 123          
+ 124          /*********************************************************************
+ 125          函数原型：unsigned char AT24C64_RecvByte(void)
+ 126          函数功能：接收一个器件发来的字节
+ 127          输入参数：无
+ 128          输出参数：dat ：接收到的数据
+ 129          版本：v1.0
+ 130          *********************************************************************/
+ 131          unsigned char AT24C64_RecvByte(void)
+ 132          {
+ 133   1        unsigned char i;
+ 134   1        unsigned char dat = 0;
+ 135   1        SDA = 1;                    //使能内部上拉,准备读取数据
+ 136   1        for (i=0; i<8; i++)         //8位计数器
+ 137   1        {
+ 138   2            dat <<= 1;
+ 139   2            SCL = 1;                //拉高时钟线
+ 140   2            Delay5us();             //延时
+ 141   2            dat |= SDA;             //读数据
+ 142   2            SCL = 0;                //拉低时钟线
+ 143   2            Delay5us();             //延时
+ 144   2        }
+ 145   1        return dat;
+ 146   1      }
+ 147          
+ 148          /**************************************
+ 149          向AT24C64写1页(16字节)数据
+ 150          将TESTDATA开始的16个测试数据写如设备的00~0F地址中
+ 151          **************************************/
+ 152          void AT24C64_WriteDat(u8 addr,u8 *buffer ,u8 length)
+ 153          {
+ 154   1        unsigned char i;
+ 155   1      
+ 156   1        AT24C64_Start();            //起始信号
+ 157   1        AT24C64_SendByte(0xa0);     //发送设备地址+写信号
+ 158   1        AT24C64_SendByte(addr >> 8);     //发送存储单元地址
+ 159   1        AT24C64_SendByte(addr & 0xff);     //发送存储单元地址
+ 160   1        if(length > 32){length = 32;}
+ 161   1        for (i=0; i<length; i++)
+ 162   1        {
+ 163   2          AT24C64_SendByte(buffer[i]);
+ 164   2        }
+ 165   1        AT24C64_Stop();             //停止信号
+ 166   1      }
+ 167          
+ 168          
+ 169          /**************************************
+ 170          从AT24C64读取1页(16字节)数据
+ 171          将设备的00~0F地址中的数据读出存放在DATA区的BUF中
+ 172          **************************************/
+ 173          void AT24C64_ReadDat(u8 addr,u8 *buffer,u8 length)
+ 174          {
+ 175   1        unsigned char i;
+ 176   1        AT24C64_Start();            //起始信号
+ 177   1        AT24C64_SendByte(0xa0);     //发送设备地址+写信号
+ 178   1        AT24C64_SendByte(addr >> 8);     //发送存储单元地址
+C51 COMPILER V9.60.0.0   AT24CXX                                                           05/20/2021 19:39:21 PAGE 4   
+
+ 179   1        AT24C64_SendByte(addr & 0xff);     //发送存储单元地址
+ 180   1        AT24C64_Start();            //起始信号
+ 181   1        AT24C64_SendByte(0xa1);     //发送设备地址+读信号
+ 182   1        for (i=0; i<length; i++)
+ 183   1        {
+ 184   2          buffer[i] = AT24C64_RecvByte();
+ 185   2          if (i == length)
+ 186   2          {
+ 187   3            AT24C64_SendACK(1); //最后一个数据需要会NAK
+ 188   3          }
+ 189   2          else
+ 190   2          {
+ 191   3            AT24C64_SendACK(0); //回应ACK
+ 192   3          }
+ 193   2        }
+ 194   1        AT24C64_Stop();         //停止信号
+ 195   1      }
+ 196          
+ 197          
+ 198          
+ 199          
+ 200          
+ 201          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    385    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      14
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

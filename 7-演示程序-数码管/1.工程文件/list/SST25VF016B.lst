@@ -1,0 +1,207 @@
+C51 COMPILER V9.60.0.0   SST25VF016B                                                       05/20/2021 19:39:20 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SST25VF016B
+OBJECT MODULE PLACED IN .\list\SST25VF016B.obj
+COMPILER INVOKED BY: D:\20.keil C51\C51\BIN\C51.EXE FLASH\SST25VF016B.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\delay;.\
+                    -GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\FLASH;.\AT24Cxx) PRINT(.\list\SST25VF016B.lst) TABS(2) OBJECT(.\list\SST25VF016B.obj)
+
+line level    source
+
+   1          #include "SST25VF016B.h"
+   2          
+   3          /*********************************************************************
+   4          函数原型：u8 ReadFLASH_SR(void)
+   5          函数功能：读取状态寄存器
+   6          输入参数：无
+   7          输出参数：dt：读取到的状态数据
+   8          版本：v1.0
+   9          *********************************************************************/
+  10          u8 ReadFLASH_SR(void)
+  11          {
+  12   1        u8 dt;
+  13   1        FLASH_SPI_NSS = 0;
+  14   1        SPI_SendoneByte(0x05);  //发送命令
+  15   1        dt=SPI_ReadoneByte();
+  16   1        FLASH_SPI_NSS = 1;
+  17   1        return dt;
+  18   1      }
+  19          /*********************************************************************
+  20          函数原型：void SPI_BusyCheck(void)
+  21          函数功能：总线忙检测
+  22          输入参数：无
+  23          输出参数：无
+  24          版本：v1.0
+  25          *********************************************************************/
+  26          void SPI_BusyCheck(void)
+  27          {
+  28   1        u8 a=1;
+  29   1        while((a&0x01)==1) a=ReadFLASH_SR();
+  30   1      }
+  31          /*********************************************************************
+  32          函数原型：u16 ReadFLASH_ID(void)
+  33          函数功能：读取flash ID
+  34          输入参数：无
+  35          输出参数：flash ID值
+  36          版本：v1.0
+  37          *********************************************************************/
+  38          u16 ReadFLASH_ID(void)
+  39          {
+  40   1        u16 id=0;
+  41   1        u8 data1,data2;
+  42   1        FLASH_SPI_NSS = 0;
+  43   1        SPI_SendoneByte(0x90);
+  44   1        SPI_SendoneByte(0);
+  45   1        SPI_SendoneByte(0);
+  46   1        SPI_SendoneByte(0);
+  47   1        data1=SPI_ReadoneByte();
+  48   1        data2=SPI_ReadoneByte();
+  49   1        FLASH_SPI_NSS = 1;
+  50   1        printf("Flash ID :%bx  %bx\r\n",data1,data2);
+  51   1        return id;
+  52   1      }
+  53          /*********************************************************************
+  54          函数原型：void En_WriteFlash_SR(void)
+C51 COMPILER V9.60.0.0   SST25VF016B                                                       05/20/2021 19:39:20 PAGE 2   
+
+  55          函数功能：启动写状态寄存器
+  56          输入参数：无
+  57          输出参数：无
+  58          版本：v1.0
+  59          *********************************************************************/
+  60          void WriteFlash_SR_En(void)
+  61          {
+  62   1        FLASH_SPI_NSS = 0;
+  63   1        SPI_SendoneByte(0x50);
+  64   1        FLASH_SPI_NSS = 1;
+  65   1        FLASH_SPI_NSS = 0;
+  66   1        SPI_SendoneByte(0x01);
+  67   1        SPI_SendoneByte(0);
+  68   1        FLASH_SPI_NSS = 1;
+  69   1        SPI_BusyCheck();
+  70   1      }
+  71          /*********************************************************************
+  72          函数原型：void WriteFlash_RDI(void)
+  73          函数功能：写FLASH禁止
+  74          输入参数：无
+  75          输出参数：无
+  76          版本：v1.0
+  77          *********************************************************************/
+  78          void WriteFlash_RDI(void)
+  79          {
+  80   1        FLASH_SPI_NSS = 0;
+  81   1        SPI_SendoneByte(0x04);
+  82   1        FLASH_SPI_NSS = 1;
+  83   1        SPI_BusyCheck();
+  84   1      }
+  85          /*********************************************************************
+  86          函数原型：void ReadFlash_Dat(u32 addr,u8 *buffer,u16 Size)
+  87          函数功能：读取Flash数据
+  88          输入参数：addr：读取Flash的起始地址*buffer ：读取后保存数据的区域Size    ：需要读取数据的个数
+  89          输出参数：无
+  90          版本：v1.0
+  91          *********************************************************************/
+  92          void ReadFlash_Dat(u32 addr,u8 *buffer,u16 Size)
+  93          {
+  94   1        u16 i=0;
+  95   1        FLASH_SPI_NSS = 0;
+  96   1        SPI_SendoneByte(0x03);
+  97   1        SPI_SendoneByte((addr&0xFFFFFF)>>16);
+  98   1        SPI_SendoneByte((addr&0xFFFF)>>8);
+  99   1        SPI_SendoneByte(addr&0xFF);
+ 100   1        while(i<Size)
+ 101   1        {
+ 102   2          buffer[i]=SPI_ReadoneByte();
+ 103   2          i++;
+ 104   2        }
+ 105   1        FLASH_SPI_NSS = 1;
+ 106   1      
+ 107   1      }
+ 108          /*********************************************************************
+ 109          函数原型：void Erase_Flash_4k(u32 addr)
+ 110          函数功能：擦除Flash4K内存空间
+ 111          输入参数：addr ：  擦除Flash的起始地址
+ 112          输出参数：无
+ 113          版本：v1.0
+ 114          *********************************************************************/
+ 115          void Erase_Flash_4k(u32 addr)
+ 116          {
+C51 COMPILER V9.60.0.0   SST25VF016B                                                       05/20/2021 19:39:20 PAGE 3   
+
+ 117   1        WriteFlash_SR_En();//使能写状态寄存器
+ 118   1        WriteFlash_EN();//写使能
+ 119   1        
+ 120   1        FLASH_SPI_NSS = 0;
+ 121   1        SPI_SendoneByte(0x20);
+ 122   1        SPI_SendoneByte((addr&0xFFFFFF)>>16);
+ 123   1        SPI_SendoneByte((addr&0xFFFF)>>8);
+ 124   1        SPI_SendoneByte(addr&0xFF);
+ 125   1        FLASH_SPI_NSS = 1;
+ 126   1        SPI_BusyCheck();//忙检测
+ 127   1      }
+ 128          /*********************************************************************
+ 129          函数原型：void WriteFlash_Dat(u32 addr,u8 *buffer,u16 Size)
+ 130          函数功能：写入Flash数据
+ 131          输入参数：addr：写Flash的起始地址*buffer ：写入数据的缓冲区的首地址Size需要写入数据的个数
+ 132          输出参数：无
+ 133          版本：v1.0
+ 134          *********************************************************************/
+ 135          void WriteFlash_Dat(u32 addr,u8 *buffer,u16 Size)
+ 136          {
+ 137   1        u16 i=0;
+ 138   1        Erase_Flash_4k(addr);//先擦除
+ 139   1        WriteFlash_SR_En();//使能写状态寄存器
+ 140   1        WriteFlash_EN();//写使能
+ 141   1        FLASH_SPI_NSS = 0;
+ 142   1        SPI_SendoneByte(0xAD);
+ 143   1        SPI_SendoneByte((addr&0xFFFFFF)>>16);
+ 144   1        SPI_SendoneByte((addr&0xFFFF)>>8);
+ 145   1        SPI_SendoneByte(addr&0xFF);
+ 146   1        SPI_SendoneByte(buffer[0]);
+ 147   1        SPI_SendoneByte(buffer[1]);
+ 148   1        FLASH_SPI_NSS = 1;
+ 149   1        i=2;
+ 150   1        while(i<Size)
+ 151   1        {
+ 152   2          delay_us(10);
+ 153   2          FLASH_SPI_NSS = 0;
+ 154   2          SPI_SendoneByte(0xAD);
+ 155   2          SPI_SendoneByte(buffer[i++]);
+ 156   2          SPI_SendoneByte(buffer[i++]);
+ 157   2          FLASH_SPI_NSS = 1;
+ 158   2        }   
+ 159   1        delay_us(10);
+ 160   1        WriteFlash_RDI();//退出AAI模式
+ 161   1        SPI_BusyCheck();
+ 162   1      }
+ 163          /*********************************************************************
+ 164          函数原型：void WriteFlash_EN(void)
+ 165          函数功能：写使能
+ 166          输入参数：无
+ 167          输出参数：无
+ 168          版本：v1.0
+ 169          *********************************************************************/
+ 170          void WriteFlash_EN(void)
+ 171          {
+ 172   1        FLASH_SPI_NSS = 0;
+ 173   1        SPI_SendoneByte(0x06);
+ 174   1        FLASH_SPI_NSS = 1;    
+ 175   1      }
+ 176          
+ 177          
+
+C51 COMPILER V9.60.0.0   SST25VF016B                                                       05/20/2021 19:39:20 PAGE 4   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    676    ----
+   CONSTANT SIZE    =     21    ----
+   XDATA SIZE       =   ----      29
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

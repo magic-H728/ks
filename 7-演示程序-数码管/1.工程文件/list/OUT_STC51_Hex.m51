@@ -1,0 +1,133 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/08/2022  11:25:55  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V4\C51\BIN\BL51.EXE .\list\main.obj, .\list\GPIO.obj, .\list\LED.obj, .\list\delay.obj, .\list\PULSE_IN_BIT_OUT.
+>> obj, .\list\KEY.obj, .\list\MKEY.obj, .\list\BMKEY.obj, .\list\YBUZZER.obj, .\list\WBUZZER.obj, .\list\ONELED.obj TO 
+>> .\list\OUT_STC51_Hex PRINT (.\list\OUT_STC51_Hex.m51) RAMSIZE (256) DISABLEWARNING (16)
+
+
+MEMORY MODEL: LARGE
+
+
+INPUT MODULES INCLUDED:
+  .\list\main.obj (MAIN)
+  .\list\GPIO.obj (GPIO)
+  .\list\LED.obj (LED)
+  .\list\delay.obj (DELAY)
+  .\list\PULSE_IN_BIT_OUT.obj (PULSE_IN_BIT_OUT)
+  .\list\KEY.obj (KEY)
+  .\list\MKEY.obj (MKEY)
+  .\list\BMKEY.obj (BMKEY)
+  .\list\YBUZZER.obj (YBUZZER)
+  .\list\WBUZZER.obj (WBUZZER)
+  .\list\ONELED.obj (ONELED)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C_STARTUP)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?CLDPTR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?CLDOPTR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?ILDOPTR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?CCASE)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\list\OUT_STC51_Hex (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0002H     UNIT         ?XD?MAIN
+            XDATA   0002H     0002H     UNIT         ?XD?LED_GPIO_CONFIG?LED
+            XDATA   0004H     0002H     UNIT         ?XD?BITINOUT_CONFIG?PULSE_IN_BIT_OUT
+            XDATA   0006H     0002H     UNIT         ?XD?KEY_GPIO_CONFIG?KEY
+            XDATA   0008H     0002H     UNIT         ?XD?MKEY_GPIO_CONFIG?MKEY
+            XDATA   000AH     0002H     UNIT         ?XD?BMKEY_GPIO_CONFIG?BMKEY
+            XDATA   000CH     0002H     UNIT         ?XD?YBUZZER_GPIO_CONFIG?YBUZZER
+            XDATA   000EH     0002H     UNIT         ?XD?WBUZZER_GPIO_CONFIG?WBUZZER
+            XDATA   0010H     0002H     UNIT         _XDATA_GROUP_
+            XDATA   0012H     0001H     UNIT         ?XD?MKEY_READ?MKEY
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     005DH     UNIT         ?PR?SPECIAL_IO_INIT?GPIO
+            CODE    0060H     0003H     UNIT         ?PR?TIMER2_INT?YBUZZER
+            CODE    0063H     0003H     ABSOLUTE     
+            CODE    0066H     025AH     UNIT         ?PR?_GPIO_INILIZE?GPIO
+            CODE    02C0H     019BH     UNIT         ?PR?_TIMER_INILIZE?YBUZZER
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2022  11:25:55  PAGE 2
+
+
+            CODE    045BH     00CBH     UNIT         ?PR?MKEY_READ?MKEY
+            CODE    0526H     00A4H     UNIT         ?C?LIB_CODE
+            CODE    05CAH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0656H     002DH     UNIT         ?PR?BITINOUT_CONFIG?PULSE_IN_BIT_OUT
+            CODE    0683H     002BH     UNIT         ?PR?MAIN?MAIN
+            CODE    06AEH     0017H     UNIT         ?PR?_DELAY_MS?DELAY
+            CODE    06C5H     0017H     UNIT         ?PR?_DELAY_US?DELAY
+            CODE    06DCH     0015H     UNIT         ?PR?YBUZZER_GPIO_CONFIG?YBUZZER
+            CODE    06F1H     0015H     UNIT         ?PR?WBUZZER_GPIO_CONFIG?WBUZZER
+            CODE    0706H     0015H     UNIT         ?PR?ONELED_GPIO_CONFIG?ONELED
+            CODE    071BH     0014H     UNIT         ?PR?KEY_GPIO_CONFIG?KEY
+            CODE    072FH     0014H     UNIT         ?PR?MKEY_GPIO_CONFIG?MKEY
+            CODE    0743H     0014H     UNIT         ?PR?BMKEY_GPIO_CONFIG?BMKEY
+            CODE    0757H     0013H     UNIT         ?PR?LED_GPIO_CONFIG?LED
+            CODE    076AH     0010H     UNIT         ?CO?ONELED
+            CODE    077AH     0005H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   .\list\OUT_STC51_Hex (MAIN)
+
+
+SEGMENT                                        XDATA_GROUP
+  +--> CALLED SEGMENT                        START    LENGTH
+------------------------------------------------------------
+?C_C51STARTUP                                -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                                -----    -----
+  +--> ?PR?SPECIAL_IO_INIT?GPIO
+  +--> ?PR?ONELED_GPIO_CONFIG?ONELED
+  +--> ?CO?ONELED
+  +--> ?PR?_DELAY_MS?DELAY
+
+?PR?SPECIAL_IO_INIT?GPIO                     0010H    0002H
+  +--> ?PR?_GPIO_INILIZE?GPIO
+
+?PR?ONELED_GPIO_CONFIG?ONELED                0010H    0002H
+  +--> ?PR?_GPIO_INILIZE?GPIO
+
+
+
+SYMBOL TABLE OF MODULE:  .\list\OUT_STC51_Hex (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C?CLDPTR
+  C:0526H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:053FH         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?ILDOPTR
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2022  11:25:55  PAGE 3
+
+
+  C:056CH         PUBLIC        ?C?ILDOPTR
+  -------         ENDMOD        ?C?ILDOPTR
+
+  -------         MODULE        ?C?CCASE
+  C:05A4H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+Program Size: data=9.0 xdata=19 code=1919
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

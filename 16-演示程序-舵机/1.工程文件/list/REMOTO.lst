@@ -1,0 +1,95 @@
+C51 COMPILER V9.52.0.0   REMOTO                                                            04/24/2022 11:14:58 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE REMOTO
+OBJECT MODULE PLACED IN .\list\REMOTO.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE REMOTO\REMOTO.c LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.
+                    -\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOURLED;.\88ELED
+                    -;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI;.\STMP_MOTO;.\DCMOTO;.\REMOTO) PRINT(.\list\REMOTO.lst) TABS(2) OBJECT(.
+                    -\list\REMOTO.obj)
+
+line level    source
+
+   1          #include "REMOTO.h"
+   2          /*********************************************************************
+   3          文件名称：LED88.h
+   4          版    本：V1.0
+   5          说    明：88LED相关函数功能文件
+   6          修改记录：2021-11-11
+   7          *********************************************************************/
+   8          #define kServoPWMCountMax   2000
+   9          
+  10          
+  11          u16 ServoPWMCount = 0;
+  12          
+  13          u16 ServoHighPulse = 50;  //50-250
+  14          
+  15          #define T1MS1 (65536-MAIN_Fosc/100000)      //1T模式
+  16          /*********************************************************************
+  17          函数原型：void LED_GPIO_config(void)
+  18          函数功能：LED端口初始化函数
+  19          输入参数：无
+  20          输出参数：无
+  21          *********************************************************************/
+  22          void REMOTO_GPIO_config(void)
+  23          {
+  24   1        GPIO_InitTypeDef  GPIO_InitStructure;     //结构定义
+  25   1        GPIO_InitStructure.Mode = GPIO_PullUp;    //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  26   1        
+  27   1        GPIO_InitStructure.Pin  = GPIO_Pin_6;     //指定要初始化的IO, GPIO_Pin_7, 或操作
+  28   1        GPIO_Inilize(GPIO_P0, &GPIO_InitStructure); //初始化
+  29   1      }
+  30          
+  31          void Time1_16_Config_Init_1(void)
+  32          {
+  33   1        AUXR |= 0x40;
+  34   1      
+  35   1          TMOD = 0x00;
+  36   1          TL1 = T1MS1;
+  37   1          TH1 = T1MS1 >> 8;
+  38   1          TR1 = 1;
+  39   1          ET1 = 1;
+  40   1          EA = 1;
+  41   1      }
+  42          
+  43          
+  44          //50us一次中断
+  45          void tm1_isr() interrupt 3
+  46          {
+  47   1        
+  48   1        ServoPWMCount++;
+  49   1      
+  50   1        if(ServoPWMCount>=kServoPWMCountMax)
+  51   1        {
+C51 COMPILER V9.52.0.0   REMOTO                                                            04/24/2022 11:14:58 PAGE 2   
+
+  52   2          ServoPWMCount=0;
+  53   2        }
+  54   1        if(ServoPWMCount>=ServoHighPulse)
+  55   1        {
+  56   2          P06 = 0;
+  57   2        }
+  58   1        else
+  59   1        {
+  60   2          P06 = 1;
+  61   2        }
+  62   1      
+  63   1      
+  64   1      }
+  65          
+  66          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    127    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

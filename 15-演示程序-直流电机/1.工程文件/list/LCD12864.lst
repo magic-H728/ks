@@ -1,0 +1,203 @@
+C51 COMPILER V9.60.0.0   LCD12864                                                          06/02/2022 20:42:35 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LCD12864
+OBJECT MODULE PLACED IN .\list\LCD12864.obj
+COMPILER INVOKED BY: D:\STM32\C51\BIN\C51.EXE LCD12864\LCD12864.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.
+                    -\LED;.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELE
+                    -D;.\FOURLED;.\88ELED;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI;.\STMP_MOTO;.\DCMOTO) DEBUG OBJECTEXTEND PRINT(.\lis
+                    -t\LCD12864.lst) TABS(2) OBJECT(.\list\LCD12864.obj)
+
+line level    source
+
+   1          #include "LCD12864.h"
+   2          #include "delay.h"
+   3          #include "FONT.h"
+   4          /*********************************************************************
+   5          文件名称：LED1616.h
+   6          版    本：V1.0
+   7          说    明：1616LED相关函数功能文件
+   8          修改记录：2021-11-11
+   9          *********************************************************************/
+  10          
+  11          /*********************************************************************
+  12          函数原型：void LCD1602_GPIO_config(void)
+  13          函数功能：LCD端口初始化函数
+  14          输入参数：无
+  15          输出参数：无
+  16          *********************************************************************/
+  17          void  LCD12864_GPIO_config(void)
+  18          {
+  19   1        GPIO_InitTypeDef  GPIO_InitStructure;     //结构定义
+  20   1        GPIO_InitStructure.Mode = GPIO_PullUp;    //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  21   1        
+  22   1        GPIO_InitStructure.Pin  = GPIO_Pin_All;     //指定要初始化的IO, GPIO_Pin_7, 或操作
+  23   1        GPIO_Inilize(GPIO_P6, &GPIO_InitStructure); //初始化
+  24   1        
+  25   1        GPIO_InitStructure.Mode = GPIO_PullUp;  
+  26   1        GPIO_InitStructure.Pin  = GPIO_Pin_0 |GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_3;      //指定要初始化的IO, 
+             -GPIO_Pin_7, 或操作
+  27   1        GPIO_Inilize(GPIO_P7, &GPIO_InitStructure); //初始化
+  28   1        GPIO_InitStructure.Mode = GPIO_PullUp;
+  29   1        GPIO_InitStructure.Pin  = GPIO_Pin_1;     //指定要初始化的IO, GPIO_Pin_7, 或操作
+  30   1        GPIO_Inilize(GPIO_P0, &GPIO_InitStructure); //初始化
+  31   1        
+  32   1      }
+  33          
+  34          
+  35          
+  36          void Delay1(u8 delay)
+  37          {
+  38   1        u8 j;
+  39   1        while(delay--)
+  40   1        {
+  41   2          for(j=0;j<1;j++);
+  42   2        }
+  43   1      }
+  44          
+  45          
+  46          /** LCD忙检测 **/
+  47          void is_lcd12864_busy(){
+  48   1      //  Lcd12864DataIn();
+  49   1      //  Lcd12864RSLow();
+  50   1      //  Lcd12864RWHigh();
+C51 COMPILER V9.60.0.0   LCD12864                                                          06/02/2022 20:42:35 PAGE 2   
+
+  51   1      //  Lcd12864ENHigh();
+  52   1      //  while(Lcd12864Data()&0x80);
+  53   1      //  Lcd12864ENLow();
+  54   1      //  Lcd12864DataOut();
+  55   1      }
+  56          
+  57          void lcd12864_write_cmd(u8 cmd){
+  58   1        is_lcd12864_busy();
+  59   1        Lcd12864RSLow();
+  60   1        Lcd12864RWLow();
+  61   1        Lcd12864WriteData(cmd);
+  62   1        Lcd12864ENHigh();
+  63   1        Delay1(5);
+  64   1        Lcd12864ENLow();
+  65   1      }
+  66          
+  67          void lcd12864_write_data(u8 dat){
+  68   1        is_lcd12864_busy();
+  69   1        Lcd12864RSHigh();
+  70   1        Lcd12864RWLow();
+  71   1        Lcd12864WriteData(dat);
+  72   1        Lcd12864ENHigh();
+  73   1        Delay1(5);
+  74   1        Lcd12864ENLow();
+  75   1      }
+  76          
+  77          //清屏函数
+  78          void lcd12864_clear(){
+  79   1        u8 i,j;
+  80   1        Lcd12864CS1High();
+  81   1        Lcd12864CS2High();
+  82   1        for(i=0;i<8;i++){    //共8页
+  83   2          lcd12864_write_cmd(0xB8+i);  //光标到i页
+  84   2          lcd12864_write_cmd(0x40);    //光标到页首
+  85   2          for(j=0;j<64;j++)lcd12864_write_data(0); //写0清屏
+  86   2        }
+  87   1      }
+  88          
+  89          void lcd12864_init()
+  90          {
+  91   1        Lcd12864DataOut();
+  92   1        Lcd12864CS1Low();
+  93   1        Lcd12864CS2Low();
+  94   1        Lcd12864ENLow();
+  95   1        Delay1(10);
+  96   1        lcd12864_write_cmd(0x3f);   //开显示
+  97   1        lcd12864_write_cmd(0xc0);   //设置显示起始行
+  98   1        lcd12864_clear();    //清屏
+  99   1      }
+ 100          /******** 任意尺寸点阵显示函数 ***********|
+ 101          |参数：显示位置：row页数，col列号，    |
+ 102          |    字符大小：x横向像素，y纵向页数   |
+ 103          |    显示内容：tab字模表          ******/
+ 104          void lcd12864_showXY(u8 row,u8 col,u8 x,u8 y,const u8 *tab){
+ 105   1        u8 i,j,right;
+ 106   1        if(col<64){
+ 107   2          right=0;
+ 108   2        } //置左右屏标志
+ 109   1        else {
+ 110   2          col-=64;
+ 111   2          right=1;
+ 112   2        }
+C51 COMPILER V9.60.0.0   LCD12864                                                          06/02/2022 20:42:35 PAGE 3   
+
+ 113   1        for(i=0;i<y;i++){
+ 114   2          if(right)
+ 115   2          {
+ 116   3            Lcd12864CS2Low();
+ 117   3            Lcd12864CS1High();
+ 118   3          }
+ 119   2          else
+ 120   2          {
+ 121   3            Lcd12864CS1Low();
+ 122   3            Lcd12864CS2High();
+ 123   3          }
+ 124   2          lcd12864_write_cmd(0xb8+row+i); //行
+ 125   2          lcd12864_write_cmd(0x40+col);   //列
+ 126   2          for(j=0;j<x;j++){
+ 127   3            if(col+j<64){
+ 128   4              lcd12864_write_data(tab[i*x+j]); //未跨屏
+ 129   4            }
+ 130   3            else if(right==0){//从左屏跨右屏
+ 131   4              Lcd12864CS2Low();
+ 132   4              Lcd12864CS1High();
+ 133   4              lcd12864_write_cmd(0xb8+row+i);
+ 134   4              lcd12864_write_cmd(0x40+(col+j-64));
+ 135   4              lcd12864_write_data(tab[i*x+j]);
+ 136   4            }
+ 137   3          }
+ 138   2        }
+ 139   1      }
+ 140          
+ 141          u8 en_char_index(const u8 s){
+ 142   1        return s-32;
+ 143   1      }
+ 144          
+ 145          /* 返回一个16*16字符索引位置 */
+ 146          u8 cn_char_index(const u8 *s){
+ 147   1        u8 i;
+ 148   1        for(i=0;zm16x16_index[i]!=0;i+=2)
+ 149   1          if(zm16x16_index[i]==*s&&zm16x16_index[i+1]==*(s+1))break;
+ 150   1        return i/2;
+ 151   1      }
+ 152          
+ 153          /* 显示字符串 */
+ 154          void Lcd12864_showStr(u8 row,u8 col,const u8 *s){
+ 155   1        u8 i;
+ 156   1        for(i=0;s[i]!=0;i++){
+ 157   2          if(s[i]<0x80){  //英文
+ 158   3             lcd12864_showXY(row,col,8,2,zm8x16_Table[en_char_index(s[i])]);
+ 159   3             col+=8;
+ 160   3          }else{
+ 161   3            lcd12864_showXY(row,col,16,2,zm16x16_Table[cn_char_index(&s[i])]);
+ 162   3            col+=16;i+=1;
+ 163   3          }
+ 164   2          if(col>120){  //换行处理
+ 165   3            col=0;
+ 166   3            row+=2;
+ 167   3          }
+ 168   2        }
+ 169   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    733    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.60.0.0   LCD12864                                                          06/02/2022 20:42:35 PAGE 4   
+
+   XDATA SIZE       =   2337      18
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

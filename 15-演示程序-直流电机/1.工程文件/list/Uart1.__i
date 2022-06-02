@@ -1,0 +1,1 @@
+"Uart1\Uart1.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT) PRINT(.\list\Uart1.lst) TABS (2) OBJECT(.\list\Uart1.obj)

@@ -1,0 +1,118 @@
+C51 COMPILER V9.52.0.0   LED1616                                                           04/24/2022 11:14:57 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE LED1616
+OBJECT MODULE PLACED IN .\list\LED1616.obj
+COMPILER INVOKED BY: C:\Keil_v4\C51\BIN\C51.EXE 1616ELED\LED1616.c LARGE BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyr
+                    -o;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT;.\delay;.\PULSE;.\KEY;.\MKEY;.\BMKEY;.\YBUZZER;.\WBUZZER;.\ONELED;.\FOURLED;.\88E
+                    -LED;.\1616ELED;.\LCD1602;.\LCD12864;.\LCDTFT;.\SPI;.\STMP_MOTO;.\DCMOTO;.\REMOTO) PRINT(.\list\LED1616.lst) TABS(2) OBJE
+                    -CT(.\list\LED1616.obj)
+
+line level    source
+
+   1          #include "LED1616.h"
+   2          /*********************************************************************
+   3          ÎÄ¼þÃû³Æ£ºLED1616.h
+   4          °æ    ±¾£ºV1.0
+   5          Ëµ    Ã÷£º1616LEDÏà¹Øº¯Êý¹¦ÄÜÎÄ¼þ
+   6          ÐÞ¸Ä¼ÇÂ¼£º2021-11-11
+   7          *********************************************************************/
+   8          
+   9          /*********************************************************************
+  10          º¯ÊýÔ­ÐÍ£ºvoid LED_GPIO_config(void)
+  11          º¯Êý¹¦ÄÜ£ºLED¶Ë¿Ú³õÊ¼»¯º¯Êý
+  12          ÊäÈë²ÎÊý£ºÎÞ
+  13          Êä³ö²ÎÊý£ºÎÞ
+  14          *********************************************************************/
+  15          void  _1616LED_GPIO_config(void)
+  16          {
+  17   1        GPIO_InitTypeDef  GPIO_InitStructure;     //½á¹¹¶¨Òå
+  18   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;    //Ö¸¶¨IOµÄÊäÈë»òÊä³ö·½Ê½,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  19   1        
+  20   1        GPIO_InitStructure.Pin  = GPIO_Pin_All;     //Ö¸¶¨Òª³õÊ¼»¯µÄIO, GPIO_Pin_7, »ò²Ù×÷
+  21   1        GPIO_Inilize(GPIO_P7, &GPIO_InitStructure); //³õÊ¼»¯
+  22   1        
+  23   1          
+  24   1        GPIO_InitStructure.Pin  = GPIO_Pin_All;     //Ö¸¶¨Òª³õÊ¼»¯µÄIO, GPIO_Pin_7, »ò²Ù×÷
+  25   1        GPIO_Inilize(GPIO_P6, &GPIO_InitStructure); //³õÊ¼»¯
+  26   1        
+  27   1        GPIO_InitStructure.Pin  = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2| GPIO_Pin_5| GPIO_Pin_6| GPIO_Pin_7;     //Ö
+             -¸¶¨Òª³õÊ¼»¯µÄIO, GPIO_Pin_7, »ò²Ù×÷
+  28   1        GPIO_Inilize(GPIO_P0, &GPIO_InitStructure); //³õÊ¼»¯  
+  29   1        
+  30   1        GPIO_InitStructure.Pin  = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5| GPIO_Pin_6| GPIO_Pin_7;     //Ö¸¶¨Òª³õÊ¼»¯µ
+             -ÄIO, GPIO_Pin_7, »ò²Ù×÷
+  31   1        GPIO_Inilize(GPIO_P1, &GPIO_InitStructure); //³õÊ¼»¯    
+  32   1      
+  33   1        GPIO_InitStructure.Pin  = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2| GPIO_Pin_3| GPIO_Pin_4| GPIO_Pin_5;     //Ö
+             -¸¶¨Òª³õÊ¼»¯µÄIO, GPIO_Pin_7, »ò²Ù×÷
+  34   1        GPIO_Inilize(GPIO_P3, &GPIO_InitStructure); //³õÊ¼»¯      
+  35   1      }
+  36          
+  37          u16 SET_Point_Y[16]={ 0X0001,0X0002,0X0004,0X0008,0X0010,0X0020,0X0040,0X0080,
+  38                                0X0100,0X0200,0X0400,0X0800,0X1000,0X2000,0X4000,0X8000};
+  39          u16 SET_Point_X[16]={ 0X0001,0X0002,0X0004,0X0008,0X0010,0X0020,0X0040,0X0080,
+  40                                0X0100,0X0200,0X0400,0X0800,0X1000,0X2000,0X4000,0X8000};
+  41          void SET_LED1616_CMD(u16 CMDY,u16 CMDX)
+  42          {
+  43   1        P77 = CMDY & 0X0001; //0000 0000 0000 0001
+  44   1        P76 = CMDY & 0X0002;  //0000 0000 0000 0010
+  45   1        P75 = CMDY & 0X0004;  //0000 0000 0000 0100
+  46   1        P74 = CMDY & 0X0008;  //0000 0000 0000 1000
+  47   1        P73 = CMDY & 0X0010;  //0000 0000 0001 0000
+  48   1        P72 = CMDY & 0X0020;  //0000 0000 0010 0000
+C51 COMPILER V9.52.0.0   LED1616                                                           04/24/2022 11:14:57 PAGE 2   
+
+  49   1        P71=  CMDY & 0X0040;  //0000 0000 0100 0000
+  50   1        P70 = CMDY & 0X0080;  //0000 0000 1000 0000
+  51   1      
+  52   1        
+  53   1        P67 = CMDY & 0X0100;  //0000 0000 0000 0001
+  54   1        P66 = CMDY & 0X0200;  //0000 0000 0000 0010
+  55   1        P65 = CMDY & 0X0400;  //0000 0000 0000 0100
+  56   1        P64 = CMDY & 0X0800;  //0000 0000 0000 1000
+  57   1        P63 = CMDY & 0X1000;  //0000 0000 0001 0000
+  58   1        P62 = CMDY & 0X2000;  //0000 0000 0010 0000
+  59   1        P61 = CMDY & 0X4000;  //0000 0000 0100 0000
+  60   1        P60 = CMDY & 0X8000;  //0000 0000 1000 0000
+  61   1      
+  62   1        P01 = CMDX & ~0X0001; //
+  63   1        P02 = CMDX & ~0X0002; //
+  64   1        P05 = CMDX & ~0X0004; //
+  65   1        P06 = CMDX & ~0X0008; //
+  66   1        P07 = CMDX & ~0X0010; //
+  67   1        P00 = CMDX & ~0X0020; //
+  68   1        P13 = CMDX & ~0X0040; //
+  69   1        P14 = CMDX & ~0X0080; //
+  70   1      
+  71   1        
+  72   1        P15 = CMDX & ~0X0100; //
+  73   1        P16 = CMDX & ~0X0200; //
+  74   1        P17 = CMDX & ~0X0400; //
+  75   1        P30 = CMDX & ~0X0800; //
+  76   1        P31 = CMDX & ~0X1000; //
+  77   1        P32 = CMDX & ~0X2000; //
+  78   1        P34 = CMDX & ~0X4000; //
+  79   1        P35 = CMDX & ~0X8000; //
+  80   1        
+  81   1      }
+  82          
+  83          void SET_LED1616_POINT(u16 CMDY,u16 CMDX)
+  84          {
+  85   1        SET_LED1616_CMD(SET_Point_Y[CMDY],SET_Point_Y[CMDX]);
+  86   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    341    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     64       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,1 @@
+"STEP_MOTOR\Step_Motor.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(.\delay;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT) PRINT(.\list\Step_Motor.lst) TABS (2) OBJECT(.\list\Step_Motor.obj)

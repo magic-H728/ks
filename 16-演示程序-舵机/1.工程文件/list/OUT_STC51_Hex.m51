@@ -1,0 +1,286 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/24/2022  11:14:58  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL_V4\C51\BIN\BL51.EXE .\list\main.obj, .\list\GPIO.obj, .\list\LED.obj, .\list\delay.obj, .\list\KEY.obj, .\list\B
+>> MKEY.obj, .\list\YBUZZER.obj, .\list\WBUZZER.obj, .\list\ONELED.obj, .\list\FOURLED.obj, .\list\LED88.obj, .\list\LED
+>> 1616.obj, .\list\LCD1602.obj, .\list\LCD12864.obj, .\list\SPI_WS.obj, .\list\LCDTFT.obj, .\list\STMP_MOTO.obj, .\list
+>> \DCMOTO.obj, .\list\REMOTO.obj TO .\list\OUT_STC51_Hex PRINT (.\list\OUT_STC51_Hex.m51) RAMSIZE (256) DISABLEWARNING 
+>> (16)
+
+
+MEMORY MODEL: LARGE
+
+
+INPUT MODULES INCLUDED:
+  .\list\main.obj (MAIN)
+  .\list\GPIO.obj (GPIO)
+  .\list\LED.obj (LED)
+  .\list\delay.obj (DELAY)
+  .\list\KEY.obj (KEY)
+  .\list\BMKEY.obj (BMKEY)
+  .\list\YBUZZER.obj (YBUZZER)
+  .\list\WBUZZER.obj (WBUZZER)
+  .\list\ONELED.obj (ONELED)
+  .\list\FOURLED.obj (FOURLED)
+  .\list\LED88.obj (LED88)
+  .\list\LED1616.obj (LED1616)
+  .\list\LCD1602.obj (LCD1602)
+  .\list\LCD12864.obj (LCD12864)
+  .\list\SPI_WS.obj (SPI_WS)
+  .\list\LCDTFT.obj (LCDTFT)
+  .\list\STMP_MOTO.obj (STMP_MOTO)
+  .\list\DCMOTO.obj (DCMOTO)
+  .\list\REMOTO.obj (REMOTO)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C_STARTUP)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?CLDPTR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?CLDOPTR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?CSTPTR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?UIDIV)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?IILDX)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?ILDIX)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?ILDOPTR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?LMUL)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?ULDIV)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?LNEG)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?ULCMP)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?ULSHR)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?LSTXDATA)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C?LIMUL)
+  C:\KEIL_V4\C51\LIB\C51L.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\list\OUT_STC51_Hex (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/24/2022  11:14:58  PAGE 2
+
+
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0921H     UNIT         ?XD?LCD12864
+            XDATA   0921H     0040H     UNIT         ?XD?LED1616
+            XDATA   0961H     002CH     UNIT         ?XD?_TFT_SHOWANYSTR?LCDTFT
+            XDATA   098DH     0010H     UNIT         ?XD?LED88
+            XDATA   099DH     0010H     UNIT         ?XD?_TFT_DRAWLINE?LCDTFT
+            XDATA   09ADH     000CH     UNIT         ?XD?_TFT_WRITEASCII16?LCDTFT
+            XDATA   09B9H     000CH     UNIT         ?XD?_TFT_WRITECN16?LCDTFT
+            XDATA   09C5H     000CH     UNIT         ?XD?_TFT_SHOWSTR?LCDTFT
+            XDATA   09D1H     000AH     UNIT         ?XD?_LCD12864_SHOWXY?LCD12864
+            XDATA   09DBH     0009H     UNIT         ?XD?_SPIFLASHREADDATA?SPI_WS
+            XDATA   09E4H     0009H     UNIT         ?XD?_SPIFLASHWRITEDATA?SPI_WS
+            XDATA   09EDH     0008H     UNIT         ?XD?_TFT_SET_WINDOW?LCDTFT
+            XDATA   09F5H     0007H     UNIT         ?XD?_GET_HZ16MAT?LCDTFT
+            XDATA   09FCH     0006H     UNIT         ?XD?_LCD12864_SHOWSTR?LCD12864
+            XDATA   0A02H     0005H     UNIT         ?XD?_FOUR_SMGSHOW?FOURLED
+            XDATA   0A07H     0004H     UNIT         ?XD?_SPIFLASHERASESECTOR?SPI_WS
+            XDATA   0A0BH     0004H     UNIT         ?XD?_TFT320_CLEAR?LCDTFT
+            XDATA   0A0FH     0004H     UNIT         ?XD?_ABS?LCDTFT
+            XDATA   0A13H     0004H     UNIT         ?XD?REMOTO
+            XDATA   0A17H     0003H     UNIT         ?XD?_LCD1602_SHOW_STR?LCD1602
+            XDATA   0A1AH     0002H     UNIT         ?XD?LED_GPIO_CONFIG?LED
+            XDATA   0A1CH     0002H     UNIT         ?XD?KEY_GPIO_CONFIG?KEY
+            XDATA   0A1EH     0002H     UNIT         ?XD?BMKEY_GPIO_CONFIG?BMKEY
+            XDATA   0A20H     0002H     UNIT         ?XD?YBUZZER_GPIO_CONFIG?YBUZZER
+            XDATA   0A22H     0002H     UNIT         ?XD?WBUZZER_GPIO_CONFIG?WBUZZER
+            XDATA   0A24H     0002H     UNIT         ?XD?ONELED_GPIO_CONFIG?ONELED
+            XDATA   0A26H     0002H     UNIT         ?XD?FOURLED_GPIO_CONFIG?FOURLED
+            XDATA   0A28H     0002H     UNIT         ?XD?_88LED_GPIO_CONFIG?LED88
+            XDATA   0A2AH     0002H     UNIT         ?XD?_1616LED_GPIO_CONFIG?LED1616
+            XDATA   0A2CH     0002H     UNIT         ?XD?LCD1602_GPIO_CONFIG?LCD1602
+            XDATA   0A2EH     0002H     UNIT         ?XD?LCD12864_GPIO_CONFIG?LCD12864
+            XDATA   0A30H     0002H     UNIT         ?XD?SPI_GPIO_CONFIG?SPI_WS
+            XDATA   0A32H     0002H     UNIT         ?XD?LCDTFT_GPIO_CONFIG?LCDTFT
+            XDATA   0A34H     0002H     UNIT         ?XD?_TFT_DRAWPOINT?LCDTFT
+            XDATA   0A36H     0002H     UNIT         ?XD?STMP_MOTO_GPIO_CONFIG?STMP_MOTO
+            XDATA   0A38H     0002H     UNIT         _XDATA_GROUP_
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0018H     UNIT         ?PR?__DELAY_MOTO?STMP_MOTO
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     0040H     UNIT         ?CO?LCD1602
+            CODE    005EH     0005H     UNIT         ?PR?LCD1602_CLEAR?LCD1602
+            CODE    0063H     0003H     ABSOLUTE     
+            CODE    0066H     0996H     UNIT         ?C_INITSEG
+            CODE    09FCH     0810H     UNIT         ?CO?LCDTFT
+            CODE    120CH     0299H     UNIT         ?C?LIB_CODE
+            CODE    14A5H     027EH     UNIT         ?PR?_TFT_DRAWLINE?LCDTFT
+            CODE    1723H     025AH     UNIT         ?PR?_GPIO_INILIZE?GPIO
+            CODE    197DH     019BH     UNIT         ?PR?_TIMER_INILIZE?YBUZZER
+            CODE    1B18H     0139H     UNIT         ?PR?_TFT_SHOWANYSTR?LCDTFT
+            CODE    1C51H     0136H     UNIT         ?PR?_TFT_SHOWSTR?LCDTFT
+            CODE    1D87H     00FAH     UNIT         ?PR?_LCD12864_SHOWXY?LCD12864
+            CODE    1E81H     00DAH     UNIT         ?PR?_LCD12864_SHOWSTR?LCD12864
+            CODE    1F5BH     00C5H     UNIT         ?PR?_SET_LED1616_CMD?LED1616
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/24/2022  11:14:58  PAGE 3
+
+
+            CODE    2020H     00B8H     UNIT         ?PR?_FOUR_SMGSHOW?FOURLED
+            CODE    20D8H     00B1H     UNIT         ?PR?_GET_HZ16MAT?LCDTFT
+            CODE    2189H     00A1H     UNIT         ?PR?_SPIFLASHWRITEDATA?SPI_WS
+            CODE    222AH     009CH     UNIT         ?PR?_TFT_WRITEASCII16?LCDTFT
+            CODE    22C6H     009CH     UNIT         ?PR?_TFT_WRITECN16?LCDTFT
+            CODE    2362H     008CH     UNIT         ?C_C51STARTUP
+            CODE    23EEH     007FH     UNIT         ?PR?SPECIAL_IO_INIT?GPIO
+            CODE    246DH     007BH     UNIT         ?PR?_SPIFLASHREADDATA?SPI_WS
+            CODE    24E8H     006FH     UNIT         ?PR?FOURLED_GPIO_CONFIG?FOURLED
+            CODE    2557H     0059H     UNIT         ?PR?_1616LED_GPIO_CONFIG?LED1616
+            CODE    25B0H     0058H     UNIT         ?PR?TM1_ISR?REMOTO
+            CODE    2608H     0056H     UNIT         ?PR?_TFT320_CLEAR?LCDTFT
+            CODE    265EH     0050H     UNIT         ?PR?_SPI_SENDREADDATA?SPI_WS
+            CODE    26AEH     004CH     UNIT         ?PR?_STEP_MOTO_RUN?STMP_MOTO
+            CODE    26FAH     0048H     UNIT         ?PR?_TFT_SET_WINDOW?LCDTFT
+            CODE    2742H     003CH     UNIT         ?PR?LCD12864_GPIO_CONFIG?LCD12864
+            CODE    277EH     003CH     UNIT         ?PR?LCDTFT_GPIO_CONFIG?LCDTFT
+            CODE    27BAH     003AH     UNIT         ?PR?_LCD1602_SHOW_STR?LCD1602
+            CODE    27F4H     0037H     UNIT         ?PR?MAIN?MAIN
+            CODE    282BH     0037H     UNIT         ?PR?_SET_LED1616_POINT?LED1616
+            CODE    2862H     0036H     UNIT         ?PR?LCD1602_GPIO_CONFIG?LCD1602
+            CODE    2898H     0036H     UNIT         ?PR?_CN_CHAR_INDEX?LCD12864
+            CODE    28CEH     0036H     UNIT         ?PR?_ABS?LCDTFT
+            CODE    2904H     0034H     UNIT         ?PR?_SPIFLASHERASESECTOR?SPI_WS
+            CODE    2938H     002BH     UNIT         ?PR?_TFT_SETCURSOR?LCDTFT
+            CODE    2963H     002AH     UNIT         ?PR?_CN_CHAR_INDEX_TFT?LCDTFT
+            CODE    298DH     0026H     UNIT         ?PR?_88LED_GPIO_CONFIG?LED88
+            CODE    29B3H     0024H     UNIT         ?PR?LCD12864_CLEAR?LCD12864
+            CODE    29D7H     0021H     UNIT         ?PR?LCD1602_INIT?LCD1602
+            CODE    29F8H     001EH     UNIT         ?PR?_TFT_DRAWPOINT?LCDTFT
+            CODE    2A16H     001BH     UNIT         ?PR?_SET_POINT?LED88
+            CODE    2A31H     001BH     UNIT         ?PR?LCD1602_INIT_CGRAM?LCD1602
+            CODE    2A4CH     001BH     UNIT         ?PR?LCD12864_INIT?LCD12864
+            CODE    2A67H     001AH     UNIT         ?PR?_DELAY?LCD1602
+            CODE    2A81H     001AH     UNIT         ?PR?_DELAY1?LCD12864
+            CODE    2A9BH     001AH     UNIT         ?PR?_SPI_DELAY?SPI_WS
+            CODE    2AB5H     0017H     UNIT         ?PR?_DELAY_MS?DELAY
+            CODE    2ACCH     0017H     UNIT         ?PR?_DELAY_US?DELAY
+            CODE    2AE3H     0017H     UNIT         ?PR?_TFT_WR_DATA?LCDTFT
+            CODE    2AFAH     0015H     UNIT         ?PR?YBUZZER_GPIO_CONFIG?YBUZZER
+            CODE    2B0FH     0015H     UNIT         ?PR?WBUZZER_GPIO_CONFIG?WBUZZER
+            CODE    2B24H     0015H     UNIT         ?PR?ONELED_GPIO_CONFIG?ONELED
+            CODE    2B39H     0015H     UNIT         ?PR?STMP_MOTO_GPIO_CONFIG?STMP_MOTO
+            CODE    2B4EH     0014H     UNIT         ?PR?KEY_GPIO_CONFIG?KEY
+            CODE    2B62H     0014H     UNIT         ?PR?BMKEY_GPIO_CONFIG?BMKEY
+            CODE    2B76H     0014H     UNIT         ?PR?SPI_GPIO_CONFIG?SPI_WS
+            CODE    2B8AH     0014H     UNIT         ?PR?REMOTO_GPIO_CONFIG?REMOTO
+            CODE    2B9EH     0013H     UNIT         ?PR?LED_GPIO_CONFIG?LED
+            CODE    2BB1H     0013H     UNIT         ?PR?SPIFLASHWAITFOREND?SPI_WS
+            CODE    2BC4H     0013H     UNIT         ?PR?TIME1_16_CONFIG_INIT_1?REMOTO
+            CODE    2BD7H     0012H     UNIT         ?PR?_DELAY?LCDTFT
+            CODE    2BE9H     0012H     UNIT         ?PR?_TFT_WR_REG?LCDTFT
+            CODE    2BFBH     0010H     UNIT         ?CO?ONELED
+            CODE    2C0BH     0010H     UNIT         ?CO?FOURLED
+            CODE    2C1BH     000FH     UNIT         ?PR?_EN_CHAR_INDEX_TFT?LCDTFT
+            CODE    2C2AH     000EH     UNIT         ?PR?_LCD1602_SHOW_CHAR?LCD1602
+            CODE    2C38H     000BH     UNIT         ?PR?_LCD1602_WRITE_CMD?LCD1602
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/24/2022  11:14:58  PAGE 4
+
+
+            CODE    2C43H     000BH     UNIT         ?PR?_LCD1602_WRITE_DATA?LCD1602
+            CODE    2C4EH     000BH     UNIT         ?PR?_LCD12864_WRITE_CMD?LCD12864
+            CODE    2C59H     000BH     UNIT         ?PR?_LCD12864_WRITE_DATA?LCD12864
+            CODE    2C64H     000AH     UNIT         ?PR?SPIFLASHENABLEWRITE?SPI_WS
+            CODE    2C6EH     000AH     UNIT         ?PR?SPIFLASHDISABLEWRITE?SPI_WS
+            CODE    2C78H     0006H     UNIT         ?PR?_EN_CHAR_INDEX?LCD12864
+            CODE    2C7EH     0003H     UNIT         ?PR?TIMER2_INT?YBUZZER
+            CODE    2C81H     0001H     UNIT         ?PR?IS_LCD1602_BUSY?LCD1602
+            CODE    2C82H     0001H     UNIT         ?PR?IS_LCD12864_BUSY?LCD12864
+
+
+
+OVERLAY MAP OF MODULE:   .\list\OUT_STC51_Hex (MAIN)
+
+
+SEGMENT                                       XDATA_GROUP
+  +--> CALLED SEGMENT                       START    LENGTH
+-----------------------------------------------------------
+?C_C51STARTUP                               -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                               -----    -----
+  +--> ?PR?SPECIAL_IO_INIT?GPIO
+  +--> ?PR?REMOTO_GPIO_CONFIG?REMOTO
+  +--> ?PR?TIME1_16_CONFIG_INIT_1?REMOTO
+  +--> ?PR?_DELAY_MS?DELAY
+
+?PR?SPECIAL_IO_INIT?GPIO                    0A38H    0002H
+  +--> ?PR?_GPIO_INILIZE?GPIO
+
+?PR?REMOTO_GPIO_CONFIG?REMOTO               0A38H    0002H
+  +--> ?PR?_GPIO_INILIZE?GPIO
+
+
+
+SYMBOL TABLE OF MODULE:  .\list\OUT_STC51_Hex (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C?CLDPTR
+  C:120CH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:1225H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTPTR
+  C:1252H         PUBLIC        ?C?CSTPTR
+  -------         ENDMOD        ?C?CSTPTR
+
+  -------         MODULE        ?C?UIDIV
+  C:1264H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/24/2022  11:14:58  PAGE 5
+
+
+  -------         MODULE        ?C?IILDX
+  C:12B9H         PUBLIC        ?C?IILDX
+  -------         ENDMOD        ?C?IILDX
+
+  -------         MODULE        ?C?ILDIX
+  C:12CFH         PUBLIC        ?C?ILDIX
+  -------         ENDMOD        ?C?ILDIX
+
+  -------         MODULE        ?C?ILDOPTR
+  C:12E5H         PUBLIC        ?C?ILDOPTR
+  -------         ENDMOD        ?C?ILDOPTR
+
+  -------         MODULE        ?C?LMUL
+  C:131DH         PUBLIC        ?C?LMUL
+  -------         ENDMOD        ?C?LMUL
+
+  -------         MODULE        ?C?ULDIV
+  C:13A8H         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?LNEG
+  C:143AH         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+  -------         MODULE        ?C?ULCMP
+  C:1448H         PUBLIC        ?C?ULCMP
+  -------         ENDMOD        ?C?ULCMP
+
+  -------         MODULE        ?C?ULSHR
+  C:1459H         PUBLIC        ?C?ULSHR
+  -------         ENDMOD        ?C?ULSHR
+
+  -------         MODULE        ?C?LSTXDATA
+  C:146CH         PUBLIC        ?C?LSTXDATA
+  -------         ENDMOD        ?C?LSTXDATA
+
+  -------         MODULE        ?C?LIMUL
+  C:1478H         PUBLIC        ?C?LIMUL
+  -------         ENDMOD        ?C?LIMUL
+
+Program Size: data=9.0 xdata=2618 code=11395
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

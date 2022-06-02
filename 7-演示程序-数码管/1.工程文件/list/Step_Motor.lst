@@ -1,0 +1,246 @@
+C51 COMPILER V9.60.0.0   STEP_MOTOR                                                        05/21/2021 09:53:30 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE STEP_MOTOR
+OBJECT MODULE PLACED IN .\list\Step_Motor.obj
+COMPILER INVOKED BY: D:\20.keil C51\C51\BIN\C51.EXE STEP_MOTOR\Step_Motor.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\dela
+                    -y;.\GPIO;.\LED;.\OLED;.\Gyro;.\Uart1;.\STEP_MOTOR;.\TRAFFIC_LIGHT) PRINT(.\list\Step_Motor.lst) TABS(2) OBJECT(.\list\St
+                    -ep_Motor.obj)
+
+line level    source
+
+   1          #include "Step_Motor.h"
+   2          
+   3          
+   4          /*********************************************************************
+   5          函数原型：void  STEPMOTOR_GPIO_config(void)
+   6          函数功能：步进电机端口初始化函数
+   7          输入参数：无
+   8          输出参数：无
+   9          版本：v1.0
+  10          *********************************************************************/
+  11          void  STEPMOTOR_GPIO_config(void)
+  12          {
+  13   1        GPIO_InitTypeDef  GPIO_InitStructure;   
+  14   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;
+  15   1        GPIO_InitStructure.Pin  = GPIO_Pin_7 |  //StepMotor_PhaseA
+  16   1                                  GPIO_Pin_6;   //StepMotor_PhaseB
+  17   1        GPIO_Inilize(GPIO_P7, &GPIO_InitStructure); 
+  18   1        
+  19   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;
+  20   1        GPIO_InitStructure.Pin  = GPIO_Pin_2 |  //StepMotor_PhaseC
+  21   1                                  GPIO_Pin_3;   //StepMotor_PhaseD
+  22   1        GPIO_Inilize(GPIO_P0, &GPIO_InitStructure);   
+  23   1      }
+  24          
+  25          /*********************************************************************
+  26          函数原型：void Step_Motor_Run_4Beat(u8 state,u16 speed)
+  27          函数功能：步进电机端驱动函数 4节拍
+  28          输入参数：无
+  29          输出参数：无
+  30          版本：v1.0
+  31          *********************************************************************/
+  32          void Step_Motor_Run_4Beat(u8 state,u16 speed)
+  33          {
+  34   1        u16 Count;
+  35   1        switch(state)
+  36   1        {
+  37   2          case Turn_Left  :
+  38   2            for(Count=0;Count<500;Count++)
+  39   2            {
+  40   3              delay_us(speed);
+  41   3              StepMotor_PhaseA = 1;
+  42   3              StepMotor_PhaseB = 1;
+  43   3              StepMotor_PhaseC = 1;
+  44   3              StepMotor_PhaseD = 0;
+  45   3              delay_us(speed);
+  46   3              StepMotor_PhaseA = 1;
+  47   3              StepMotor_PhaseB = 1;
+  48   3              StepMotor_PhaseC = 0;
+  49   3              StepMotor_PhaseD = 1;
+  50   3              delay_us(speed);
+  51   3              StepMotor_PhaseA = 1;
+  52   3              StepMotor_PhaseB = 0;
+  53   3              StepMotor_PhaseC = 1;
+C51 COMPILER V9.60.0.0   STEP_MOTOR                                                        05/21/2021 09:53:30 PAGE 2   
+
+  54   3              StepMotor_PhaseD = 1;
+  55   3              delay_us(speed);
+  56   3              StepMotor_PhaseA = 0;
+  57   3              StepMotor_PhaseB = 1;
+  58   3              StepMotor_PhaseC = 1;
+  59   3              StepMotor_PhaseD = 1;
+  60   3            }
+  61   2            break;
+  62   2          case Turn_Right :
+  63   2            for(Count=0;Count<500;Count++)
+  64   2            {
+  65   3              delay_us(speed);
+  66   3              StepMotor_PhaseA = 1;
+  67   3              StepMotor_PhaseB = 0;
+  68   3              StepMotor_PhaseC = 0;
+  69   3              StepMotor_PhaseD = 0;
+  70   3              delay_us(speed);
+  71   3              StepMotor_PhaseA = 0;
+  72   3              StepMotor_PhaseB = 1;
+  73   3              StepMotor_PhaseC = 0;
+  74   3              StepMotor_PhaseD = 0;
+  75   3              delay_us(speed);
+  76   3              StepMotor_PhaseA = 0;
+  77   3              StepMotor_PhaseB = 0;
+  78   3              StepMotor_PhaseC = 1;
+  79   3              StepMotor_PhaseD = 0;
+  80   3              delay_us(speed);
+  81   3              StepMotor_PhaseA = 0;
+  82   3              StepMotor_PhaseB = 0;
+  83   3              StepMotor_PhaseC = 0;
+  84   3              StepMotor_PhaseD = 1;
+  85   3            }
+  86   2            break;
+  87   2          case Stop       :
+  88   2              StepMotor_PhaseA = 0;
+  89   2              StepMotor_PhaseB = 0;
+  90   2              StepMotor_PhaseC = 0;
+  91   2              StepMotor_PhaseD = 0;
+  92   2            break;
+  93   2          default:
+  94   2            break;
+  95   2        }
+  96   1      
+  97   1      }
+  98          
+  99          
+ 100          /*********************************************************************
+ 101          函数原型：void Step_Motor_Run_8Beat(u8 state,u16 speed)
+ 102          函数功能：步进电机端驱动函数  8节拍
+ 103          输入参数：无
+ 104          输出参数：无
+ 105          版本：v1.0
+ 106          *********************************************************************/
+ 107          void Step_Motor_Run_8Beat(u8 state,u16 speed)
+ 108          {
+ 109   1        u16 Count;
+ 110   1        switch(state)
+ 111   1        {
+ 112   2          case Turn_Left  :
+ 113   2            for(Count=0;Count<500;Count++)
+ 114   2            {
+ 115   3              delay_us(speed);
+C51 COMPILER V9.60.0.0   STEP_MOTOR                                                        05/21/2021 09:53:30 PAGE 3   
+
+ 116   3              StepMotor_PhaseA = 0;
+ 117   3              StepMotor_PhaseB = 0;
+ 118   3              StepMotor_PhaseC = 0;
+ 119   3              StepMotor_PhaseD = 1;
+ 120   3              delay_us(speed);
+ 121   3              StepMotor_PhaseA = 0;
+ 122   3              StepMotor_PhaseB = 0;
+ 123   3              StepMotor_PhaseC = 1;
+ 124   3              StepMotor_PhaseD = 1; 
+ 125   3              delay_us(speed);
+ 126   3              StepMotor_PhaseA = 0;
+ 127   3              StepMotor_PhaseB = 0;
+ 128   3              StepMotor_PhaseC = 1;
+ 129   3              StepMotor_PhaseD = 0;   
+ 130   3              delay_us(speed);
+ 131   3              StepMotor_PhaseA = 0;
+ 132   3              StepMotor_PhaseB = 1;
+ 133   3              StepMotor_PhaseC = 1;
+ 134   3              StepMotor_PhaseD = 0;   
+ 135   3              delay_us(speed);
+ 136   3              StepMotor_PhaseA = 0;
+ 137   3              StepMotor_PhaseB = 1;
+ 138   3              StepMotor_PhaseC = 0;
+ 139   3              StepMotor_PhaseD = 0;   
+ 140   3              delay_us(speed);
+ 141   3              StepMotor_PhaseA = 1;
+ 142   3              StepMotor_PhaseB = 1;
+ 143   3              StepMotor_PhaseC = 0;
+ 144   3              StepMotor_PhaseD = 0;   
+ 145   3              delay_us(speed);
+ 146   3              StepMotor_PhaseA = 1;
+ 147   3              StepMotor_PhaseB = 0;
+ 148   3              StepMotor_PhaseC = 0;
+ 149   3              StepMotor_PhaseD = 0;     
+ 150   3              delay_us(speed);
+ 151   3              StepMotor_PhaseA = 1;
+ 152   3              StepMotor_PhaseB = 0;
+ 153   3              StepMotor_PhaseC = 0;
+ 154   3              StepMotor_PhaseD = 1;     
+ 155   3            }
+ 156   2            break;
+ 157   2          case Turn_Right :
+ 158   2            for(Count=0;Count<500;Count++)
+ 159   2            {
+ 160   3              delay_us(speed);
+ 161   3              StepMotor_PhaseA = 1;
+ 162   3              StepMotor_PhaseB = 0;
+ 163   3              StepMotor_PhaseC = 0;
+ 164   3              StepMotor_PhaseD = 1;   
+ 165   3              delay_us(speed);
+ 166   3              StepMotor_PhaseA = 1;
+ 167   3              StepMotor_PhaseB = 0;
+ 168   3              StepMotor_PhaseC = 0;
+ 169   3              StepMotor_PhaseD = 0; 
+ 170   3              delay_us(speed);
+ 171   3              StepMotor_PhaseA = 1;
+ 172   3              StepMotor_PhaseB = 1;
+ 173   3              StepMotor_PhaseC = 0;
+ 174   3              StepMotor_PhaseD = 0;       
+ 175   3              delay_us(speed);
+ 176   3              StepMotor_PhaseA = 0;
+ 177   3              StepMotor_PhaseB = 1;
+C51 COMPILER V9.60.0.0   STEP_MOTOR                                                        05/21/2021 09:53:30 PAGE 4   
+
+ 178   3              StepMotor_PhaseC = 0;
+ 179   3              StepMotor_PhaseD = 0;         
+ 180   3              delay_us(speed);
+ 181   3              StepMotor_PhaseA = 0;
+ 182   3              StepMotor_PhaseB = 1;
+ 183   3              StepMotor_PhaseC = 1;
+ 184   3              StepMotor_PhaseD = 0;           
+ 185   3              delay_us(speed);
+ 186   3              StepMotor_PhaseA = 0;
+ 187   3              StepMotor_PhaseB = 0;
+ 188   3              StepMotor_PhaseC = 1;
+ 189   3              StepMotor_PhaseD = 0;         
+ 190   3              delay_us(speed);
+ 191   3              StepMotor_PhaseA = 0;
+ 192   3              StepMotor_PhaseB = 0;
+ 193   3              StepMotor_PhaseC = 1;
+ 194   3              StepMotor_PhaseD = 1;       
+ 195   3              delay_us(speed);
+ 196   3              StepMotor_PhaseA = 0;
+ 197   3              StepMotor_PhaseB = 0;
+ 198   3              StepMotor_PhaseC = 0;
+ 199   3              StepMotor_PhaseD = 1;       
+ 200   3            }
+ 201   2            break;
+ 202   2          case Stop       :
+ 203   2              StepMotor_PhaseA = 0;
+ 204   2              StepMotor_PhaseB = 0;
+ 205   2              StepMotor_PhaseC = 0;
+ 206   2              StepMotor_PhaseD = 0;
+ 207   2            break;
+ 208   2          default:
+ 209   2            break;
+ 210   2        }
+ 211   1      
+ 212   1      }
+ 213          
+ 214          
+ 215          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    726    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      10
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
